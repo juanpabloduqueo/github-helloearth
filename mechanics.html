@@ -1,1 +1,71 @@
-Hello I am the mechanics page
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mechanics</title>
+    <link rel="stylesheet" href="style.css" type="text/css"/>
+</head>
+<body>
+    <h1>Mechanics</h1>
+
+    [  <a href="index.html"> Machines</a> | <a href="locations.html"> Locations</a> | <a href="mechanics.html"> Mechanics</a> | <a href="products.html"> Products</a> | <a href="workorders.html"> Work Orders</a>]
+
+    <br>
+    <br>
+    <table>
+        <tr>
+            <th><a href="#">New</a></th>
+            <th></th>
+            <th>mechanicId</th>
+            <th>firstName</th>
+            <th>lastName</th>
+            <th>phone</th>
+            <th>email</th>
+        </tr>
+        <tr>
+            <td><a href="#">Edit</a></td>
+            <td><a href="#">Delete</a></td>
+            <td>1</td>
+            <td>Bryan</td>
+            <td>Cook</td>
+            <td>+16945702087</td>
+            <td>bryan.cook@gmail.com</td>
+        </tr>
+        <tr>
+            <td><a href="#">Edit</a></td>
+            <td><a href="#">Delete</a></td>
+            <td>2</td>
+            <td>Maverick</td>
+            <td>Ruiz</td>
+            <td>+1-432-416-1915</td>
+            <td>maverick.ruiz@gmail.com</td>
+        </tr>
+        <tr>
+            <td><a href="#">Edit</a></td>
+            <td><a href="#">Delete</a></td>
+            <td>3</td>
+            <td>Clark</td>
+            <td>Bennet</td>
+            <td>(742) 757-1004 4662</td>
+            <td>clark.bennet@gmail.com</td>
+        </tr>
+    </table>
+    <p>&nbsp;</p>
+    <div id="insert">
+        <form method="POST" id="addMechanic">
+            <legend><strong>Add Mechanic</strong></legend>
+              <fieldset class="fields">
+                <label> first name</label> <input type="text" name="firstName">
+                <label> last name </label> <input name="lastName">
+                <label> phone </label> <input type="text" name="phone">
+                <label> email </label> <input type="text" name="email">
+          </fieldset>
+              <input class="btn" type="submit" id="addMechanic" value="Add Mechanic">
+        </form> 
+
+
+
+</body>
+</html>
