@@ -1,1 +1,78 @@
-Hello, I am the locations page
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Locations</title>
+    <link rel="stylesheet" href="style.css" type="text/css"/>
+</head>
+<body>
+    <h1>Locations</h1>
+
+    [  <a href="index.html"> Machines</a> | <a href="locations.html"> Locations</a> | <a href="mechanics.html"> Mechanics</a> | <a href="products.html"> Products</a> | <a href="workorders.html"> Work Orders</a>]
+
+    <br>
+    <br>
+    <table>
+        <tr>
+            <th><a href="#">New</a></th>
+            <th></th>
+            <th>locationId</th>
+            <th>locationName</th>
+            <th>address</th>
+            <th>zipcode</th>
+            <th>state</th>
+            <th>isClientLocation</th>
+        </tr>
+        <tr>
+            <td><a href="#">Edit</a></td>
+            <td><a href="#">Delete</a></td>
+            <td>1</td>
+            <td>HelloEarth Depot 1</td>
+            <td>123 Main Street</td>
+            <td>12345</td>
+            <td>State A</td>
+            <td>0</td>
+        </tr>
+        <tr>
+            <td><a href="#">Edit</a></td>
+            <td><a href="#">Delete</a></td>
+            <td>2</td>
+            <td>HelloEarth Depot 2</td>
+            <td>456 Market Ave</td>
+            <td>67890</td>
+            <td>State B</td>
+            <td>0</td>
+        </tr>
+        <tr>
+            <td><a href="#">Edit</a></td>
+            <td><a href="#">Delete</a></td>
+            <td>4</td>
+            <td>Client Site 1</td>
+            <td>725 Oakland Blvd</td>
+            <td>24559</td>
+            <td>State C</td>
+            <td>1</td>
+        </tr>
+    </table>
+    <p>&nbsp;</p>
+    <div id="insert">
+        <form method="POST" id="addLocation">
+            <legend><strong>Add Location</strong></legend>
+              <fieldset class="fields">
+                <label> locationName</label> <input type="text" name="locationName">
+                <label> address </label> <input name="address">
+                <label> zipcode </label> <input type="text" name="zipcode">
+                <label> state </label> <input type="text" name="zipcode">
+                <label> isClientLocation </label> <select name="isClientLocation">
+                    <option value="0"> No </option>
+                    <option value="1" selected> Yes </option>
+          </fieldset>
+              <input class="btn" type="submit" id="addLocation" value="Add Location">
+        </form> 
+
+
+
+</body>
+</html>
