@@ -1,1 +1,67 @@
-Hello I am the products page
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products</title>
+    <link rel="stylesheet" href="style.css" type="text/css"/>
+</head>
+<body>
+    <h1>Products</h1>
+
+    [  <a href="index.html"> Machines</a> | <a href="locations.html"> Locations</a> | <a href="mechanics.html"> Mechanics</a> | <a href="products.html"> Products</a> | <a href="workorders.html"> Work Orders</a>]
+
+    <br>
+    <br>
+    <table>
+        <tr>
+            <th><a href="#">New</a></th>
+            <th>productId</th>
+            <th>productName</th>
+            <th>reference</th>
+            <th>brand</th>
+            <th>description</th>
+        </tr>
+        <tr>
+            <th></th>
+            <td>1</td>
+            <td>Lubricant X</td>
+            <td>REF001</td>
+            <td>Brand A</td>
+            <td>High-quality lubricant for earth moving machinery</td>
+        </tr>
+        <tr>
+            <th></th>
+            <td>6</td>
+            <td>Air filter</td>
+            <td>P532501</td>
+            <td>Donaldson</td>
+            <td>Air filter for excavators</td>
+        </tr>
+        <tr>
+            <th></th>
+            <td>7</td>
+            <td>HYDO10</td>
+            <td>Hydraulic oil</td>
+            <td>Caterpillar</td>
+            <td>Hydraulic oil 6000+ hours extended life</td>
+        </tr>
+    </table>
+    <p>&nbsp;</p>
+    <div id="insert">
+        <form method="POST" id="addProduct">
+            <legend><strong>Add Product</strong></legend>
+              <fieldset class="fields">
+                <label> product name</label> <input type="text" name="productName">
+                <label> reference </label> <input name="reference">
+                <label> brand </label> <input type="text" name="brand">
+                <label> description </label> <input type="text" name="description">
+          </fieldset>
+              <input class="btn" type="submit" id="addMechanic" value="Add Mechanic">
+        </form> 
+
+
+
+</body>
+</html>
