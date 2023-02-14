@@ -1,1 +1,252 @@
-Hello I am the work orders page
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Work Orders</title>
+    <link rel="stylesheet" href="style.css" type="text/css"/>
+</head>
+<body>
+    <h1>Work Orders</h1>
+
+    [  <a href="index.html"> Machines</a> | <a href="locations.html"> Locations</a> | <a href="mechanics.html"> Mechanics</a> | <a href="products.html"> Products</a> | <a href="workorders.html"> Work Orders</a>]
+
+    <br>
+    <br>
+    <table>
+        <tr>
+            <th><a href="#">New</a></th>
+            <th></th>
+            <th>workOrderId</th>
+            <th>machineModel</th>
+            <th>machineSerial</th>
+            <th>locationName</th>
+            <th>date</th>
+            <th>description</th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+        <tr>
+            <td><a href="#">Edit</a></td>
+            <td><a href="#">Delete</a></td>
+            <td>1</td>
+            <td>R 317 Litronic</td>
+            <td>1042-48528</td>
+            <td>Client Site 1</td>
+            <td>2023-02-07</td>
+            <td>Machine needs a general check-up</td>
+            <td><a href="#">View Details</a></td>
+            <td><a href="#">Add Products</a></td>
+            <td><a href="#">Add Mechanics</a></td>
+            <td><a href="#">Edit Products</a></td>
+        </tr>
+        <tr>
+            <td><a href="#">Edit</a></td>
+            <td><a href="#">Delete</a></td>
+            <td>2</td>
+            <td>963K</td>
+            <td>D8T49943</td>
+            <td>HelloEarth Depot 1</td>
+            <td>2023-02-07</td>
+            <td>Machine needs an oil change</td>
+            <td><a href="#">View Details</a></td>
+            <td><a href="#">Add Products</a></td>
+            <td><a href="#">Add Mechanics</a></td>
+            <td><a href="#">Edit Products</a></td>
+        </tr>
+        <tr>
+            <td><a href="#">Edit</a></td>
+            <td><a href="#">Delete</a></td>
+            <td>8</td>
+            <td>320DL</td>
+            <td>KGF02672</td>
+            <td>HelloEarth Depot 3</td>
+            <td>2023-01-03</td>
+            <td>Adjust boom</td>
+            <td><a href="#">View Details</a></td>
+            <td><a href="#">Add Products</a></td>
+            <td><a href="#">Add Mechanics</a></td>
+            <td><a href="#">Edit Products</a></td>
+        </tr>
+    </table>
+
+    <p>&nbsp;</p>
+    <div id="detailWorkOrderId1">
+        <form method="GET" id="viewDetails1">
+            <legend><strong> Id: 1 Work Order Product Details</strong></legend>
+                <fieldset class="fields">
+                    <table>
+                        <tr>
+                            <th>productName</th>
+                            <th>productReference</th>
+                        </tr>
+                        <tr>
+                            <td>Lubricant X</td>
+                            <td>REF001</td>
+                        </tr>
+                        <tr>
+                            <td>Grease Y</td>
+                            <td>REF002</td>
+                        </tr>
+                    </table>
+                    <br>
+                    <table>
+                        <tr>
+                            <th>mechanicFirstName</th>
+                            <th>MechanicLastName</th>
+                        </tr>
+                        <tr>
+                            <td>Bryan</td>
+                            <td>Cook</td>
+                        </tr>
+                    </table>
+                </fieldset>
+        </form> 
+    </div>
+
+    <p>&nbsp;</p>
+    <div id="detailWorkOrderId2">
+        <form method="GET" id="viewDetails2">
+            <legend><strong> Id: 2 Work Order Product Details</strong></legend>
+                <fieldset class="fields">
+                    <table>
+                        <tr>
+                            <th>productName</th>
+                            <th>productReference</th>
+                        </tr>
+                        <tr>
+                            <td>Lubricant X</td>
+                            <td>REF001</td>
+                        </tr>
+                    </table>
+                    <br>
+                    <table>
+                        <tr>
+                            <th>mechanicFirstName</th>
+                            <th>MechanicLastName</th>
+                        </tr>
+                        <tr>
+                            <td>Clark</td>
+                            <td>Bennet</td>
+                        </tr>
+                    </table>
+                </fieldset>
+        </form> 
+    </div>
+
+    <p>&nbsp;</p>
+    <div id="detailWorkOrderId8">
+        <form method="GET" id="viewDetails8">
+            <legend><strong> Id: 8 Work Order Product Details</strong></legend>
+                <fieldset class="fields">
+                    <table>
+                        <tr>
+                            <th>productName</th>
+                            <th>productReference</th>
+                        </tr>
+                        <tr>
+                            <td>NULL</td>
+                            <td>NULL</td>
+                        </tr>
+                    </table>
+                    <br>
+                    <table>
+                        <tr>
+                            <th>mechanicFirstName</th>
+                            <th>MechanicLastName</th>
+                        </tr>
+                        <tr>
+                            <td>NULL</td>
+                            <td>NULL</td>
+                        </tr>
+                    </table>
+                </fieldset>
+        </form> 
+    </div>
+
+    <p>&nbsp;</p>
+    <div id="insert">
+        <form method="POST" id="addWorkOrder">
+            <legend><strong>Add Work Order</strong></legend>
+              <fieldset class="fields">
+                <label> machineSerial </label> <select name="serial">
+                    <option value="0">&nbsp;</option>
+                    <option value="4">3WN02456</option>
+                    <option value="5">AKH01920</option>
+                    <option value="6">KGF02672</option>
+                    </select>
+                <label> locationName </label> <select name="locationId">
+                    <option value="0">&nbsp;</option>
+                    <option value="1">HelloEarth Depot 1</option>
+                    <option value="2">HelloEarth Depot 2</option>
+                    <option value="4">Client Site 1</option>
+                    </select>
+                <label> date </label> <input type="text" name="date">
+                <label> description </label> <input type="text" name="description">
+          </fieldset>
+              <input class="btn" type="submit" id="addWorkOrder" value="Add Work Order">
+        </form> 
+    </div>
+
+    <p>&nbsp;</p>
+    <div id="insert">
+        <form method="POST" id="addWorkOrderProducts">
+            <legend><strong>Add Work Order Products</strong></legend>
+              <fieldset class="fields">
+                <label> productReference</label> <select name="productReference">
+                    <option value="0">&nbsp;</option>
+                    <option value="1">REF001</option>
+                    <option value="6">P532501</option>
+                    <option value="7">HYDO10</option>
+                    </select>
+          </fieldset>
+          <input class="btn" type="submit" id="addProduct" value="Add Product">
+        </form> 
+    </div>
+
+    <p>&nbsp;</p>
+    <div id="insert">
+        <form method="POST" id="addWorkOrderMechanics">
+            <legend><strong>Add Work Order Mechanics</strong></legend>
+              <fieldset class="fields">
+                <label> mechanicEmail</label> <select name="email">
+                    <option value="0">&nbsp;</option>
+                    <option value="1">bryan.cook@gmail.com</option>
+                    <option value="2">maverick.ruiz@gmail.com</option>
+                    <option value="3">clark.bennet@gmail.com</option>
+                    </select>
+
+          </fieldset>
+              <input class="btn" type="submit" id="addMechanic" value="Add Mechanic">
+        </form> 
+    </div>
+
+    <p>&nbsp;</p>
+    <div id="updateWorkOrderProducts">
+        <form method="POST" id="updateProducts">
+            <legend><strong>Update Work Order Products</strong></legend>
+                <fieldset class="fields">
+                <input type="hidden" name="machineId id="udpatemachineId" value="4">
+                <label> ID: 1</label> 
+                <label> product </label> <select name="productReference">
+                    <option value="0">&nbsp;</option>
+                    <option value="1" selected>REF001</option>
+                    <option value="2">REF002</option>
+                    <option value="6">P532501</option>
+                    </select>
+                    <label> product </label> <select name="productReference">
+                        <option value="0">&nbsp;</option>
+                        <option value="1">REF001</option>
+                        <option value="2" selected>REF002</option>
+                        <option value="6">P532501</option>
+                        </select>
+            </fieldset>
+                <input class="btn" type="submit" id="updateProducts" value="Update Products">
+        </form> 
+    </div>
+
+</body>
+</html>
