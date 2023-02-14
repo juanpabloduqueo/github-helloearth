@@ -8,9 +8,15 @@
     <link rel="stylesheet" href="style.css" type="text/css"/>
 </head>
 <body>
+    <h1>Machines</h1>
+
+    [  <a href="index.html"> Machines</a> | <a href="locations.html"> Locations</a> | <a href="mechanics.html"> Mechanics</a> | <a href="products.html"> Products</a> | <a href="workorders.html"> Work Orders</a>]
+
+    <br>
+    <br>
     <table>
         <tr>
-            <th>New</th>
+            <th><a href="#">New</a></th>
             <th></th>
             <th>machineId</th>
             <th>year</th>
@@ -20,8 +26,8 @@
             <th>class</th>
         </tr>
         <tr>
-            <td>Edit</td>
-            <td>Delete</td>
+            <td><a href="#">Edit</a></td>
+            <td><a href="#">Delete</a></td>
             <td>4</td>
             <td>2001</td>
             <td>CATERPILLAR</td>
@@ -30,8 +36,8 @@
             <td>Bulldozer</td>
         </tr>
         <tr>
-            <td>Edit</td>
-            <td>Delete</td>
+            <td><a href="#">Edit</a></td>
+            <td><a href="#">Delete</a></td>
             <td>5</td>
             <td>2001</td>
             <td>CATERPILLAR</td>
@@ -40,8 +46,8 @@
             <td>Tracked Excavator</td>
         </tr>
         <tr>
-            <td>Edit</td>
-            <td>Delete</td>
+            <td><a href="#">Edit</a></td>
+            <td><a href="#">Delete</a></td>
             <td>6</td>
             <td>2008</td>
             <td>CATERPILLAR</td>
@@ -50,6 +56,35 @@
             <td>Tracked Excavator</td>
         </tr>
     </table>
+    <p>&nbsp;</p>
+    <div id="insert">
+        <form method="POST" id="addMachine">
+            <legend><strong>Add Machine</strong></legend>
+              <fieldset class="fields">
+                <label> year </label> <input type="text" name="year">
+                <label> make </label> <input type="text" name="make">
+                <label> model </label> <input name="model">
+                <label> serial </label> <input type="text" name="serial">
+                <label> class </label> <input type="text" name="class">
+          </fieldset>
+              <input class="btn" type="submit" id="addMachine" value="Add Machine">
+        </form> 
+    <p>&nbsp;</p>
+    <div id="update">
+        <form method="POST" id="UpdateMachine">
+            <legend><strong>Update Machine</strong></legend>
+                <fieldset class="fields">
+                <input type="hidden" name="machineId id="udpatemachineId" value="4">
+                <label> ID: </label> 4
+                <label> year </label> <input type="text" name="year" value="2001">
+                <label> make </label> <input type="text" name="make" value="CATERPILLAR">
+                <label> model </label> <input name="model" value="D6M">
+                <label> serial </label> <input type="text" name="serial" value="3WN02456">
+                <label> class </label> <input type="text" name="class" value="Bulldozer">
+            </fieldset>
+                <input class="btn" type="submit" id="UpdateSavePerson" value="Update Machine">
+        </form> 
+
 
 </body>
 </html>
