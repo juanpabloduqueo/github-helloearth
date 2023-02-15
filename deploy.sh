@@ -8,4 +8,4 @@
 
 # Fetch the latest changes from Github
 # cd /path/to/your/website
-git pull origin master
+git pull origin main
