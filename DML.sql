@@ -107,6 +107,18 @@ SELECT locationId from Locations;
 -- Work Order Details Page
 -------------------------------------------------------
 
+-- display products associated with work order
+SELECT Products.productName, Products.productReference
+    FROM WorkOrderProducts
+    JOIN Products ON WorkOrderProducts.productId = Products.productId
+    WHERE WorkOrderProducts.workOrderId = workOrderId_from_input;
+
+-- display mechanics associated with work order
+SELECT Mechanics.firstName, Mechanics.lastName
+    FROM WorkOrderMechanics
+    JOIN Mechanics ON WorkOrderMechanics.mechanicId = Mechanics.mechanicId
+    WHERE WorkOrderMechanics.workOrderId = workOrderId_from_input;
+
 -- add product to work order (M-to-M relationship addition)
 INSERT INTO WorkOrderProducts (workOrderId, productId) VALUES (workOrderId_from_input, :productId_from_input);
 
