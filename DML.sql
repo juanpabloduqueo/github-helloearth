@@ -4,6 +4,8 @@
 -- Project Step 3 Draft Version: Design HTML Interface + DML SQL (Group / On Ed Discussion ) 
 
 -- Database Manipulation queries organized by page
+-- the colon : character is being used to denote the variables that 
+-- will have data from the backend programming language throughout
 
 
 -------------------------------------------------------
