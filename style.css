@@ -1,17 +1,49 @@
 /* CSS Document */
 
-table, th, td {
-    border: 1px solid;
-    background-color: purple;
-    padding: 5px;
-  }
 
-  .App-header {
-    min-height: 5vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: black;
-  }
+
+td, th {
+  border: 1px solid #ddd;
+  padding: 8px;
+
+}
+
+tr:nth-child(even){background-color: #f2f2f2;}
+
+tr:hover {background-color: #ddd;}
+
+th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: center;
+  background-color: rgb(105, 85, 25);
+  color: blanchedalmond;
+}
+
+header {
+  font-size: large;
+  background-color: #df4c4c;
+  text-align: center;
+  padding: 1px;
+}
+
+a {
+  padding: 0px 20px 5px 20px;
+  background-color: rgb(165, 86, 0);
+  text-decoration: none;
+  color: blanchedalmond;
+  line-height: 1;
+  vertical-align: middle;
+  border-right: 2px solid blanchedalmond;
+  font-size: 1.1em;
+  font-weight: bold;
+  border-radius: 3px;
+  text-align: center;
+  display: inline-block;
+  margin-top: 0.8%;
+}
+
+a:hover {
+  color: black;
+  background-color: rgb(255, 181, 0);
+}
