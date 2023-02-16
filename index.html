@@ -10,7 +10,7 @@
 <body>
     <h1>Machines</h1>
 
-    [  <a href="index.html"> Machines</a> | <a href="locations.html"> Locations</a> | <a href="mechanics.html"> Mechanics</a> | <a href="products.html"> Products</a> | <a href="workorders.html"> Work Orders</a>]
+    [  <a href="index.html"> Machines</a> | <a href="locations.html"> Locations</a> | <a href="mechanics.html"> Mechanics</a> | <a href="products.html"> Products</a> | <a href="workorders.html"> Work Orders</a> | <a href="workorderdetails.html"> Work Order Details</a>]
 
     <br>
     <br>
@@ -18,12 +18,12 @@
         <tr>
             <th><a href="#">New</a></th>
             <th></th>
-            <th>machineId</th>
-            <th>year</th>
-            <th>make</th>
-            <th>model</th>
-            <th>serial</th>
-            <th>class</th>
+            <th>Machine Id</th>
+            <th>Year</th>
+            <th>Make</th>
+            <th>Model</th>
+            <th>Serial</th>
+            <th>Class</th>
         </tr>
         <tr>
             <td><a href="#">Edit</a></td>
@@ -61,11 +61,11 @@
         <form method="POST" id="addMachine">
             <legend><strong>Add Machine</strong></legend>
               <fieldset class="fields">
-                <label> year </label> <input type="text" name="year">
-                <label> make </label> <input type="text" name="make">
-                <label> model </label> <input name="model">
-                <label> serial </label> <input type="text" name="serial">
-                <label> class </label> <input type="text" name="class">
+                <label> Year </label> <input type="text" name="year">
+                <label> Make </label> <input type="text" name="make">
+                <label> Model </label> <input name="model">
+                <label> Serial </label> <input type="text" name="serial">
+                <label> Class </label> <input type="text" name="class">
           </fieldset>
               <input class="btn" type="submit" id="addMachine" value="Add Machine">
         </form> 
@@ -76,11 +76,11 @@
                 <fieldset class="fields">
                 <input type="hidden" name="machineId id="udpatemachineId" value="4">
                 <label> ID: </label> 4
-                <label> year </label> <input type="text" name="year" value="2001">
-                <label> make </label> <input type="text" name="make" value="CATERPILLAR">
-                <label> model </label> <input name="model" value="D6M">
-                <label> serial </label> <input type="text" name="serial" value="3WN02456">
-                <label> class </label> <input type="text" name="class" value="Bulldozer">
+                <label> Year </label> <input type="text" name="year" value="2001">
+                <label> Make </label> <input type="text" name="make" value="CATERPILLAR">
+                <label> Model </label> <input name="model" value="D6M">
+                <label> Serial </label> <input type="text" name="serial" value="3WN02456">
+                <label> Class </label> <input type="text" name="class" value="Bulldozer">
             </fieldset>
                 <input class="btn" type="submit" id="UpdateSavePerson" value="Update Machine">
         </form> 
