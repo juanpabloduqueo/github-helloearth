@@ -1,6 +1,10 @@
 /* CSS Document */
 
-
+body {
+  min-height: 400px;
+  margin-bottom: 100px;
+  clear: both;
+}
 
 td, th {
   border: 1px solid #ddd;
@@ -21,15 +25,15 @@ th {
 }
 
 header {
-  font-size: large;
-  background-color: #df4c4c;
+  font-size: medium;
+  background-color:  #E8E8E8;
   text-align: center;
   padding: 1px;
 }
 
-a {
+a, .btn {
   padding: 0px 20px 5px 20px;
-  background-color: rgb(165, 86, 0);
+  background-color: lightslategrey;
   text-decoration: none;
   color: blanchedalmond;
   line-height: 1;
@@ -43,7 +47,28 @@ a {
   margin-top: 0.8%;
 }
 
+.btn {
+  border: none
+}
+
 a:hover {
   color: black;
-  background-color: rgb(255, 181, 0);
+  background-color: rgb(195, 143, 11);
+}
+
+.btn:hover {
+  color: black;
+  background-color: rgb(195, 143, 11);
+}
+
+footer {
+  position:fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  color: black;
+  text-align: center;
+  font-size: small;
+  font-weight: bold;
+  background-color: #E8E8E8;
 }
