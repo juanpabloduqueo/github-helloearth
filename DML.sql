@@ -128,5 +128,6 @@ VALUES (11, (SELECT mechanicId FROM Mechanics WHERE email="edisonjr@outlook.com"
 -- delete mechanic from work order (M-to-M relationship deletion)
 DELETE FROM WorkOrderMechanics WHERE workOrderId = :workOrderId_from_the_update_form AND (SELECT mechanicId FROM Mechanics WHERE email=:emailInput);
 
+
 -- sample delete mechanic from work order
 DELETE FROM WorkOrderMechanics WHERE workOrderId = 11 AND (SELECT mechanicId FROM Mechanics WHERE email="edisonjr@outlook.com");
