@@ -10,19 +10,19 @@
 <body>
     <h1>Locations</h1>
 
-    [  <a href="index.html"> Machines</a> | <a href="locations.html"> Locations</a> | <a href="mechanics.html"> Mechanics</a> | <a href="products.html"> Products</a> | <a href="workorders.html"> Work Orders</a>]
+    [  <a href="index.html"> Machines</a> | <a href="locations.html"> Locations</a> | <a href="mechanics.html"> Mechanics</a> | <a href="products.html"> Products</a> | <a href="workorders.html"> Work Orders</a> | <a href="workorderdetails.html"> Work Order Details</a>]
 
     <br>
     <br>
     <table>
         <tr>
             <th><a href="#">New</a></th>
-            <th>locationId</th>
-            <th>locationName</th>
-            <th>address</th>
-            <th>zipcode</th>
-            <th>state</th>
-            <th>isClientLocation</th>
+            <th>Location Id</th>
+            <th>Location Name</th>
+            <th>Address</th>
+            <th>Zipcode</th>
+            <th>State</th>
+            <th>Client Location?</th>
         </tr>
         <tr>
             <td></td>
@@ -57,11 +57,11 @@
         <form method="POST" id="addLocation">
             <legend><strong>Add Location</strong></legend>
               <fieldset class="fields">
-                <label> locationName</label> <input type="text" name="locationName">
-                <label> address </label> <input name="address">
-                <label> zipcode </label> <input type="text" name="zipcode">
-                <label> state </label> <input type="text" name="zipcode">
-                <label> isClientLocation </label> <select name="isClientLocation">
+                <label> Location Name</label> <input type="text" name="locationName">
+                <label> Address </label> <input name="address">
+                <label> Zipcode </label> <input type="text" name="zipcode">
+                <label> State </label> <input type="text" name="zipcode">
+                <label> Client Location ?</label> <select name="isClientLocation">
                     <option value="0"> No </option>
                     <option value="1" selected> Yes </option>
           </fieldset>
