@@ -10,18 +10,18 @@
 <body>
     <h1>Products</h1>
 
-    [  <a href="index.html"> Machines</a> | <a href="locations.html"> Locations</a> | <a href="mechanics.html"> Mechanics</a> | <a href="products.html"> Products</a> | <a href="workorders.html"> Work Orders</a>]
+    [  <a href="index.html"> Machines</a> | <a href="locations.html"> Locations</a> | <a href="mechanics.html"> Mechanics</a> | <a href="products.html"> Products</a> | <a href="workorders.html"> Work Orders</a> | <a href="workorderdetails.html"> Work Order Details</a>]
 
     <br>
     <br>
     <table>
         <tr>
             <th><a href="#">New</a></th>
-            <th>productId</th>
-            <th>productName</th>
-            <th>reference</th>
-            <th>brand</th>
-            <th>description</th>
+            <th>Product Id</th>
+            <th>Product Name</th>
+            <th>Reference</th>
+            <th>Brand</th>
+            <th>Description</th>
         </tr>
         <tr>
             <th></th>
@@ -53,10 +53,10 @@
         <form method="POST" id="addProduct">
             <legend><strong>Add Product</strong></legend>
               <fieldset class="fields">
-                <label> product name</label> <input type="text" name="productName">
-                <label> reference </label> <input name="reference">
-                <label> brand </label> <input type="text" name="brand">
-                <label> description </label> <input type="text" name="description">
+                <label> Product Name</label> <input type="text" name="productName">
+                <label> Reference </label> <input name="reference">
+                <label> Brand </label> <input type="text" name="brand">
+                <label> Description </label> <input type="text" name="description">
           </fieldset>
               <input class="btn" type="submit" id="addMechanic" value="Add Mechanic">
         </form> 
