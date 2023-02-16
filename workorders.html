@@ -117,5 +117,50 @@
 
 
 
+    
+    <p>&nbsp;</p>
+    <div id="insert">
+        <form method="POST" id="addWorkOrder">
+            <legend><strong>Add Work Order</strong></legend>
+              <fieldset class="fields">
+                <label> machineSerial </label> <select name="serial">
+                    <option value="0">&nbsp;</option>
+                    <option value="4">3WN02456</option>
+                    <option value="5">AKH01920</option>
+                    <option value="6">KGF02672</option>
+                    </select>
+                <label> locationName </label> <select name="locationId">
+                    <option value="0">&nbsp;</option>
+                    <option value="1">HelloEarth Depot 1</option>
+                    <option value="2">HelloEarth Depot 2</option>
+                    <option value="4">Client Site 1</option>
+                    </select>
+                <label> date </label> <input type="text" name="date">
+                <label> description </label> <input type="text" name="description">
+                <label> products </label>
+                <select multiple style="height:75px;" name="products">
+                    <option value="Lubricant X">Lubricant X</option>
+                    <option value="Grease Y">Grease Y</option>
+                    <option value="Spare Part Z">Spare Part Z</option>
+                    <option value="Hydraulic filter">Hydraulic filter</option>
+                    <option value="Fuel filter">Fuel filter</option>
+                    <option value="Air filter">Air filter</option>
+                    <option value="Hydraulic oil">Hydraulic oil</option>
+                    <option value="Motor oil">Motor oil</option>
+                </select><br />
+                <label> mechanics </label>
+                <select multiple style="height:75px;" name="mechanics">
+                    <option value="Bryan Cook">Bryan Cook</option>
+                    <option value="Maverick Ruiz">Maverick Ruiz</option>
+                    <option value="Clark Bennet">Clark Bennet</option>
+                    <option value="John Williams">John Williams</option>
+                    <option value="Adam Edison">Adam Edison</option>
+                    <option value="Robert Schalke">Robert Schalke</option>
+                </select><br />
+          </fieldset>
+              <input class="btn" type="submit" id="addWorkOrder" value="Add Work Order">
+        </form> 
+    </div>
+
 </body>
 </html>
