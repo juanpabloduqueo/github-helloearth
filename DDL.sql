@@ -1,7 +1,7 @@
 -- Group 39
 -- Team Members: Juan Pablo Duque Ochoa, Marco Scandroglio
 -- Project Name: Hello Earth!
--- Project Step 2 Draft: Normalized Schema + DDL with Sample Data 
+-- Project Step 3 Draft Version: Design HTML Interface + DML SQL 
 
 SET FOREIGN_KEY_CHECKS=0;
 SET AUTOCOMMIT = 0;
