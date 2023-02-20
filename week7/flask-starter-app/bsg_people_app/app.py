@@ -26,12 +26,104 @@ app.config["MYSQL_CURSORCLASS"] = "DictCursor"
 mysql = MySQL(app)
 
 # Routes
-# have homepage route to /people by default for convenience, generally this will be your home route with its own template
+# have homepage route to /machines by default for convenience, generally this will be your home route with its own template
 @app.route("/")
 def home():
-    return redirect("/people")
+    return redirect("/machines")
 
 
+# route for machines page
+@app.route("/machines", methods=["POST", "GET"])
+def machines():
+    # Separate out the request methods, in this case this is for a POST
+    # insert a machine into the machines entity
+    if request.method == "POST":
+    # fire off if user presses the Add Machine button
+        if request.form.get("Add_Machine"):
+            # grab user form inputs
+            year = request.form["year"]
+            make = request.form["make"]
+            model = request.form["model"]
+            serial = request.form["serial"]
+            # class is a python reserved word, so it was changed to clas. This has to be modified in the other files!!!!
+            clas = request.form["class"]
+
+            # This table does no accept null inputs
+            query = "INSERT INTO Machines (year, make, model, serial, clas) VALUES (%s, %s,%s,%s, %s)"
+            cur = mysql.connection.cursor()
+            # Must pay attention when writing clas instead of class!!!
+            cur.execute(query, (year, make, model, serial, clas))
+            mysql.connection.commit()
+
+            # redirect back to people page
+            return redirect("/machines")
+    
+    # Grab Machines data so we send it to our template to display
+    if request.method == "GET":
+        # mySQL query to grab all the machines in Machines
+        query = "SELECT machineId, year, make, model, serial, class FROM Machines"
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        data = cur.fetchall()
+
+        # render edit_machine page passing our query data to the edit_machine template
+        return render_template("machines.j2", data=data)
+
+# route for delete functionality, deleting a machine from Machines,
+# we want to pass the 'id' value of that machine on button click (see HTML) via the route
+@app.route("/delete_machines/<int:id>")
+def delete_machines(id):
+    # mySQL query to delete the person with our passed id
+    query = "DELETE FROM Machines WHERE machineId = '%s';"
+    cur = mysql.connection.cursor()
+    cur.execute(query, (id,))
+    mysql.connection.commit()
+
+    # redirect back to people page
+    return redirect("/machines")
+
+# route for edit functionality, updating the attributes of a machine in Machines
+# similar to our delete route, we want to the pass the 'id' value of that machine on button click (see HTML) via the route
+@app.route("/edit_machines/<int:id>", methods=["POST", "GET"])
+def edit_machines(id):
+    if request.method == "GET":
+        # mySQL query to grab the info of the person with our passed id
+        query = "SELECT * FROM Machines WHERE machineId = %s" % (id)
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        data = cur.fetchall()
+
+        # render edit_machines page passing our query data edit_machines template
+        return render_template("edit_machines.j2", data=data)
+
+    # meat and potatoes of our update functionality
+    if request.method == "POST":
+        # fire off if user clicks the 'Edit Machine' button
+        if request.form.get("Edit_Machine"):
+            # grab user form inputs
+            year = request.form["year"]
+            make = request.form["make"]
+            model = request.form["model"]
+            serial = request.form["serial"]
+            # class is a python reserved word, so it was changed to clas. This has to be modified in the other files!!!!
+            clas = request.form["class"]
+
+            # This table does not accept null inputs
+            query = "UPDATE Machines SET Machines.year = %s, Machines.make = %s, Machines.model = %s, Machines.serial = %s, Machines.class = %s  WHERE Machines.machineId = %s"
+            cur = mysql.connection.cursor()
+            cur.execute(query, (year, make, model, serial, clas,id))
+            mysql.connection.commit()
+            
+            # redirect back to people page after we execute the update query
+            return redirect("/machines")
+
+
+# Listener
+# change the port number if deploying on the flip servers
+if __name__ == "__main__":
+    app.run(port=3246, debug=True)
+
+"""
 # route for people page
 @app.route("/people", methods=["POST", "GET"])
 def people():
@@ -172,9 +264,5 @@ def edit_people(id):
 
             # redirect back to people page after we execute the update query
             return redirect("/people")
+"""
 
-
-# Listener
-# change the port number if deploying on the flip servers
-if __name__ == "__main__":
-    app.run(port=3246, debug=True)
