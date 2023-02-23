@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Work Order Details</title>
+    <link rel="stylesheet" href="style.css" type="text/css"/>
+</head>
+<body>
+    <header>
+        <h1>Hello Earth Machines</h1> 
+    </header>
+    
+    <h2>Work Order Products Detail</h2>
+
+    <a href="index.html"> Machines</a>  
+    <a href="locations.html"> Locations</a>  
+    <a href="mechanics.html"> Mechanics</a>
+    <a href="products.html"> Products</a> 
+    <a href="workorders.html"> Work Orders</a>
+
+    <p>&nbsp;</p>
+    <div id="productDetailWorkOrderId1">
+        <form method="GET" id="viewProductDetails1">
+            <legend><strong> Id: 1 Work Order Product Details</strong></legend>
+                <fieldset class="fields">
+                    <table>
+                        <tr>
+                            <th><a href="#">New</a></th>
+                            <th>Product Name</th>
+                            <th>Product Reference</th>
+                        </tr>
+                        <tr>
+                            <td><a href="#">Delete</a></td>
+                            <td>Lubricant X</td>
+                            <td>REF001</td>
+                        </tr>
+                        <tr>
+                            <td><a href="#">Delete</a></td>
+                            <td>Grease Y</td>
+                            <td>REF002</td>
+                        </tr>
+                    </table>
+                </fieldset>
+        </form> 
+    </div>
+
+    <p>&nbsp;</p>
+    <div id="productDetailWorkOrderId2">
+        <form method="GET" id="viewProductDetails2">
+            <legend><strong> Id: 2 Work Order Product Details</strong></legend>
+                <fieldset class="fields">
+                    <table>
+                        <tr>
+                            <th><a href="#">New</a></th>
+                            <th>Product Name</th>
+                            <th>Product Reference</th>
+                        </tr>
+                        <tr>
+                            <td><a href="#">Delete</a></td>
+                            <td>Lubricant X</td>
+                            <td>REF001</td>
+                        </tr>
+                    </table>
+                </fieldset>
+        </form> 
+    </div>
+
+    <p>&nbsp;</p>
+    <div id="productDetailWorkOrderId8">
+        <form method="GET" id="viewProductDetails8">
+            <legend><strong> Id: 8 Work Order Product Details</strong></legend>
+                <fieldset class="fields">
+                    <table>
+                        <tr>
+                            <th><a href="#">New</a></th>
+                            <th>Product Name</th>
+                            <th>Product Reference</th>
+                        </tr>
+                        <tr>
+                        </tr>
+                    </table>
+
+                </fieldset>
+        </form> 
+    </div>
+
+
+
+    <p>&nbsp;</p>
+    <div id="insert">
+        <form method="POST" id="addWorkOrderProducts">
+            <legend><strong>Add Work Order Products</strong></legend>
+              <fieldset class="fields">
+                <label> Product Reference</label> <select name="productReference">
+                    <option value="0">&nbsp;</option>
+                    <option value="1">REF001</option>
+                    <option value="6">P532501</option>
+                    <option value="7">HYDO10</option>
+                    </select>
+          </fieldset>
+          <input class="btn" type="submit" id="addProduct" value="Add Product">
+        </form>  
+    </div>
+
+    <p>&nbsp;</p>
+    <div id="updateWorkOrderProducts">
+        <form method="POST" id="updateProducts">
+            <legend><strong>Update Work Order Products</strong></legend>
+                <fieldset class="fields">
+                <input type="hidden" name="machineId id="udpatemachineId" value="4">
+                <label> Work Order Id: 1</label> 
+                <label> product </label> <select name="productReference">
+                    <option value="0">&nbsp;</option>
+                    <option value="1" selected>REF001</option>
+                    <option value="2">REF002</option>
+                    <option value="6">P532501</option>
+                    </select>
+                    <label> product </label> <select name="productReference">
+                        <option value="0">&nbsp;</option>
+                        <option value="1">REF001</option>
+                        <option value="2" selected>REF002</option>
+                        <option value="6">P532501</option>
+                        </select>
+                </fieldset>
+            <input class="btn" type="submit" id="updateProducts" value="Update Products">
+        </form> 
+    </div>
+
+    <footer>
+        <p> Project Step 3 Draft Version: Design HTML Interface + DML SQL [Juan Pablo Duque and Marco Scandroglio]</p>
+    </footer>
+
+</body>
+</html>
