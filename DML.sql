@@ -1,7 +1,7 @@
 -- Group 39
 -- Team Members: Juan Pablo Duque Ochoa, Marco Scandroglio
 -- Project Name: Hello Earth!
--- Project Step 3 Draft Version: Design HTML Interface + DML SQL (Group / On Ed Discussion ) 
+-- Project Step 3 Final Version: Design HTML Interface (Group / On Canvas) 
 
 -- Database Manipulation queries organized by page
 -- the colon : character is being used to denote the variables that 
@@ -102,11 +102,11 @@ WHERE workOrderId = :workOrderId_from_the_update_form;
 -- Delete work order in WorkOrder Table
 DELETE FROM WorkOrders WHERE workOrderId = :workOrderId_from_the_update_form;
 
--- populate machineSerial dropdown
-SELECT machineId from Machines;
+-- populate Machine Serial dropdown
+SELECT machineId, serial from Machines;
 
 -- populate locationName dropdown
-SELECT locationId from Locations;
+SELECT locationId, locationName from Locations;
 
 
 -------------------------------------------------------
@@ -144,15 +144,15 @@ DELETE FROM WorkOrderMechanics WHERE workOrderId = :workOrderId_from_the_update_
 -- update WorkOrderProducts (M-to-M relationship update)
 UPDATE WorkOrderProducts SET productId = :productId_from_input WHERE workOrderId = :workOrderId_from_the_update_form AND productId = :productId_from_the_update_form;
 
--- populate productReference dropdown with ids
-SELECT productId from Products;
+-- populate Product Reference dropdown with ids
+SELECT productId, reference from Products;
 
--- populate mechanicEmail dropdown with ids
-SELECT mechanicId from Mechanics;
+-- populate Mechanic Email dropdown with ids
+SELECT mechanicId, email from Mechanics;
 
 
 -------------------------------------------------------
--- Work Order Products Detial Page
+-- Work Order Products Detail Page
 -------------------------------------------------------
 
 -- display products associated with work order
@@ -171,8 +171,12 @@ INSERT INTO WorkOrderProducts (workOrderId, productId) VALUES (:workOrderId_from
 -- update WorkOrderProducts (M-to-M relationship update)
 UPDATE WorkOrderProducts SET productId = :productId_from_input WHERE workOrderId = :workOrderId_from_the_update_form AND productId = :productId_from_the_update_form;
 
+-- populate Product Reference dropdown with ids
+SELECT productId, reference from Products;
+
+
 -------------------------------------------------------
--- Work Order Mechanics Detial Page
+-- Work Order Mechanics Detail Page
 -------------------------------------------------------
 
 -- display mechanics associated with work order
@@ -187,3 +191,6 @@ DELETE FROM WorkOrderMechanics WHERE workOrderId = :workOrderId_from_the_update_
 
 -- add mechanic to work order (M-to-M relationship addition)
 INSERT INTO WorkOrderMechanics (workOrderId, mechanicId) VALUES (:workOrderId_from_input, :mechanicId_from_input);
+
+-- populate Mechanic Email dropdown with ids
+SELECT mechanicId, email from Mechanics;
