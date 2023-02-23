@@ -122,7 +122,7 @@ SELECT Mechanics.firstName, Mechanics.lastName
     WHERE WorkOrderMechanics.workOrderId = workOrderId_from_input;
 
 -- add product to work order (M-to-M relationship addition)
-INSERT INTO WorkOrderProducts (workOrderId, productId) VALUES (workOrderId_from_input, :productId_from_input);
+INSERT INTO WorkOrderProducts (workOrderId, productId) VALUES (:workOrderId_from_input, :productId_from_input);
 
 -- delete product from work order (M-to-M relationship deletion)
 DELETE FROM WorkOrderProducts WHERE workOrderId = :workOrderId_from_the_update_form AND (SELECT productId FROM Products WHERE reference = :referenceInput);
