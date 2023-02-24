@@ -36,7 +36,7 @@ def home():
 @app.route("/machines", methods=["POST", "GET"])
 def machines():
     # Separate out the request methods, in this case this is for a POST
-    # insert a machine into the machines entity
+    # insert a machine into the Machines entity
     if request.method == "POST":
     # fire off if user presses the Add Machine button
         if request.form.get("Add_Machine"):
@@ -49,7 +49,8 @@ def machines():
             clas = request.form["class"]
 
             # This table does no accept null inputs
-            query = "INSERT INTO Machines (year, make, model, serial, clas) VALUES (%s, %s,%s,%s, %s)"
+            # WE HAVE AN ISSUE WITH CLASS (it is an attribute but it is a python reserved word). SHOULD WE CHANGE THIS ATTRIBUTE NAME? MAYBE TO Category?
+            query = "INSERT INTO Machines (year, make, model, serial, class) VALUES (%s, %s,%s,%s, %s);"
             cur = mysql.connection.cursor()
             # Must pay attention when writing clas instead of class!!!
             cur.execute(query, (year, make, model, serial, clas))
@@ -71,12 +72,12 @@ def machines():
 
 # route for delete functionality, deleting a machine from Machines,
 # we want to pass the 'id' value of that machine on button click (see HTML) via the route
-@app.route("/delete_machines/<int:id>")
-def delete_machines(id):
+@app.route("/delete_machines/<int:machineId>")
+def delete_machines(machineId):
     # mySQL query to delete the person with our passed id
     query = "DELETE FROM Machines WHERE machineId = '%s';"
     cur = mysql.connection.cursor()
-    cur.execute(query, (id,))
+    cur.execute(query, (machineId,))
     mysql.connection.commit()
 
     # redirect back to people page
@@ -84,11 +85,11 @@ def delete_machines(id):
 
 # route for edit functionality, updating the attributes of a machine in Machines
 # similar to our delete route, we want to the pass the 'id' value of that machine on button click (see HTML) via the route
-@app.route("/edit_machines/<int:id>", methods=["POST", "GET"])
-def edit_machines(id):
+@app.route("/edit_machines/<int:machineId>", methods=["POST", "GET"])
+def edit_machines(machineId):
     if request.method == "GET":
         # mySQL query to grab the info of the person with our passed id
-        query = "SELECT * FROM Machines WHERE machineId = %s" % (id)
+        query = "SELECT * FROM Machines WHERE machineId = %s" % (machineId)
         cur = mysql.connection.cursor()
         cur.execute(query)
         data = cur.fetchall()
@@ -111,7 +112,7 @@ def edit_machines(id):
             # This table does not accept null inputs
             query = "UPDATE Machines SET Machines.year = %s, Machines.make = %s, Machines.model = %s, Machines.serial = %s, Machines.class = %s  WHERE Machines.machineId = %s"
             cur = mysql.connection.cursor()
-            cur.execute(query, (year, make, model, serial, clas,id))
+            cur.execute(query, (year, make, model, serial, clas, machineId))
             mysql.connection.commit()
             
             # redirect back to people page after we execute the update query
