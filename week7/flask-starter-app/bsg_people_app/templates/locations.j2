@@ -12,27 +12,27 @@
 		if(dowhat == 'insert') {
 			document.getElementById('browse').style.display = 'none';
 			document.getElementById('insert').style.display = 'block';
-			document.getElementById('edit').style.display = 'none';
+			// document.getElementById('edit').style.display = 'none';
 			document.getElementById('delete').style.display = 'none';
-		} else if(dowhat == 'update') {
+		} /*else if(dowhat == 'update') {
 			document.getElementById('browse').style.display = 'none';
 			document.getElementById('insert').style.display = 'none';
 			document.getElementById('edit').style.display = 'block';
 			document.getElementById('delete').style.display = 'none';
-		} else if(dowhat == 'delete') {
+		}*/else if(dowhat == 'delete') {
 			document.getElementById('browse').style.display = 'none';
 			document.getElementById('insert').style.display = 'none';
-			document.getElementById('edit').style.display = 'none';
+			// document.getElementById('edit').style.display = 'none';
 			document.getElementById('delete').style.display = 'block';
 		} else if(dowhat == 'all') {
 			document.getElementById('browse').style.display = 'block';
 			document.getElementById('insert').style.display = 'block';
-			document.getElementById('edit').style.display = 'block';
+			// document.getElementById('edit').style.display = 'block';
 			document.getElementById('delete').style.display = 'block';
 		} else { //by default display browse
 			document.getElementById('browse').style.display = 'block';
 			document.getElementById('insert').style.display = 'none';
-			document.getElementById('edit').style.display = 'none';
+			// document.getElementById('edit').style.display = 'none';
 			document.getElementById('delete').style.display = 'none';
 		}
 	}
@@ -41,9 +41,11 @@
 		showform('insert');
 	}
 
+	/*
 	function updateLocation(locationId) {
 		showform('update');
 	}
+	*/
 
 	function deleteLocation(locationId) {
 		showform('delete');
