@@ -123,9 +123,9 @@ def edit_machines(machineId):
 @app.route("/locations", methods=["POST", "GET"])
 def locations():
     # Separate out the request methods, in this case this is for a POST
-    # insert a machine into the Machines entity
+    # insert a location into the Locations entity
     if request.method == "POST":
-    # fire off if user presses the Add Machine button
+    # fire off if user presses the Add Location button
         if request.form.get("Add_Location"):
             # grab user form inputs
             locationName = request.form["locationName"]
