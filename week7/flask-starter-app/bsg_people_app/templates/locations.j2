@@ -1,7 +1,7 @@
 <html>
 <!-- Adapted from the people.html UI design -->
 <head>
-	<title>Machines</title>
+	<title>Locations</title>
 	<link href="style.css" rel="stylesheet" type="text/css" />
 	<script language="JavaScript">
 	function showform(dowhat) {
@@ -37,19 +37,19 @@
 		}
 	}
 
-	function newMachine() {
+	function newLocation() {
 		showform('insert');
 	}
 
-	function updateMachine(machineId) {
+	function updateLocation(locationId) {
 		showform('update');
 	}
 
-	function deleteMachine(machineId) {
+	function deleteLocation(locationId) {
 		showform('delete');
 	}
 
-	function browseMachines() {
+	function browseLocations() {
 		showform('browse');
 	}
 
@@ -59,11 +59,11 @@
 	</script>
 </head>
 
-<body onload="browseMachines()">
-	<h1>Machines</h1> [ <a href="machines">Machines</a> | <a href="locations">Locations</a> ]
+<body onload="browseLocations()">
+	<h1>Locations</h1> [ <a href="machines">Machines</a> | <a href="locations">Locations</a>  ]
 	<p>&nbsp;</p>
 	<div id="browse">
-		<p><a href="#" onClick="newMachine()">Add New</a> </p>
+		<p><a href="#" onClick="newLocation()">Add New</a> </p>
 		<table border="1" cellpadding="5">
             <!-- Access data tuple passed from app.py --> 
             {% if data %}
@@ -90,8 +90,7 @@
                             {% endfor %}
 
                             <!-- Create our edit/delete buttons -->
-						    <td><a href="edit_machines/{{item.machineId}}" class="btn btn-default">Edit</a></td>
-						    <td><a href="delete_machines/{{item.machineId}}" class="btn btn-default">Delete</a></td>
+						    <td><a href="delete_locations/{{item.locationId}}" class="btn btn-default">Delete</a></td>
 
 					    </tr> 
                         {% endfor %} 
@@ -102,60 +101,34 @@
 	
 	<p>&nbsp;</p>
 	<div id="insert">
-		<!-- form to INSERT new data into Machines-->
-		<form id="insertMachine" action="/machines" method="post">
-			<legend><strong>Add Machine</strong></legend>
+		<!-- form to INSERT new data into Locations-->
+		<form id="insertLocation" action="/locations" method="post">
+			<legend><strong>Add Location</strong></legend>
 			<fieldset>
                 <!-- placeholder shows ghost text, required forces an input, pattern forces input adherence -->
-				<label for="year">Year:</label>
-				<input type="number" class="form-control" id="year" name="year" min="1900" max="2099" step="1" placeholder="" required>				
+				<label for="locationName">Location Name:</label>
+				<input type="text" class="form-control" id="locationName" name="model" pattern="[A-Za-z0-9]{1,}" placeholder="" required>		
 				
-				<label for="make">Make:</label>
-				<input type="text" class="form-control" id="make" name="make" pattern="[A-Za-z]{1,}" placeholder="" required>
+				<label for="address">Address:</label>
+				<input type="text" class="form-control" id="address" name="model" pattern="[A-Za-z0-9]{1,}" placeholder="" required>
 
-				<label for="model">Model:</label>
-				<input type="text" class="form-control" id="model" name="model" pattern="[A-Za-z0-9]{1,}" placeholder="" required>
+				<label for="zipcode">Zip Code:</label>
+				<input type="text" class="form-control" id="zipcode" name="model" pattern="[A-Za-z0-9]{1,}" placeholder="" required>
 
-				<label for="serial">Serial:</label>
-				<input type="text" class="form-control" id="serial" name="serial" pattern="[A-Za-z0-9]{1,}" placeholder="" required>
+				<label for="state">State:</label>
+				<input type="text" class="form-control" id="state" name="serial" pattern="[A-Za-z0-9]{1,}" placeholder="" required>
 
-				<label for="class">Class:</label>
-				<input type="text" class="form-control" id="class" name="class" pattern="[A-Za-z0-9]{1,}" placeholder="" required>
+				<label for="isClientLocation">Is a client location?:</label>
+				<input type="number" class="form-control" id="isClientLocation" name="isClientLocation" min="0" max="1" step="1" placeholder="" required>		
+				<!--<input type="checkbox" class="form-control" id="isClientLocation" name="isClientLocation" value="checked" required> -->
             </fieldset>
 
-            <!-- Create 'Add Machine' and 'Cancel' buttons -->
-			<input type="submit" value="Add Machine" name="Add_Machine" class="btn btn-primary" style="margin:.5rem;">
-			<input class="btn" type="button" value="Cancel" onClick="browseMachines()"> 
+            <!-- Create 'Add Location' and 'Cancel' buttons -->
+			<input type="submit" value="Add Location" name="Add_Location" class="btn btn-primary" style="margin:.5rem;">
+			<input class="btn" type="button" value="Cancel" onClick="browseLocations()"> 
         </form>
 	</div><!--insert-->
-	<div id="edit">
-		<!-- form to edit data in Machines-->
-		<form id="editMachine" action="/edit_machines/{{data[0].machineId}}" method="post">
-			<legend><strong>Edit Machine</strong></legend>
-			<fieldset>
-				<input type="hidden" value="{{data[0].machineId}}" class="form-control" id="machineId" name="machineId" required>
-				
-				<label for="year">Year:</label>
-				<input type="number" class="form-control" id="year" name="year" min="1900" max="2099" step="1" placeholder="{{data[0].year}}" required>
-
-				<label for="make">Make:</label>
-				<input type="text" class="form-control" id="make" name="make" pattern="[A-Za-z]{1,}" placeholder="{{data[0].make}}" required>				
-				
-				<label for="model">Model:</label>
-				<input type="text" class="form-control" id="model" name="model" pattern="[A-Za-z0-9]{1,}" placeholder="{{data[0].model}}" required>
-
-				<label for="serial">Serial:</label>
-				<input type="text" class="form-control" id="serial" name="serial" pattern="[A-Za-z0-9]{1,}" placeholder="{{data[0].serial}}" required>
-
-				<label for="class">Class:</label>
-				<input type="text" class="form-control" id="class" name="class" pattern="[A-Za-z0-9]{1,}" placeholder="{{data[0].class}}" required>
-				
-			</fieldset>
-				<input class="btn" type="button" value="Cancel" onClick="browseMachines()" style="margin:.5rem;"> 
-				
-
-		</form>
-	</div><!--edit-->
+	
 	<footer>
 	<p> Project Step 4 Draft Version: Implement CRUD for One Entity</p>
 		<p>[Juan Pablo Duque and Marco Scandroglio]</p>

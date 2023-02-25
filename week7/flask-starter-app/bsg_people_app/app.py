@@ -119,6 +119,64 @@ def edit_machines(machineId):
             return redirect("/machines")
 
 
+# route for locations page
+@app.route("/locations", methods=["POST", "GET"])
+def locations():
+    # Separate out the request methods, in this case this is for a POST
+    # insert a machine into the Machines entity
+    if request.method == "POST":
+    # fire off if user presses the Add Machine button
+        if request.form.get("Add_Location"):
+            # grab user form inputs
+            locationName = request.form["locationName"]
+            address = request.form["address"]
+            zipcode = request.form["zipcode"]
+            state = request.form["state"]
+            isClientLocation = request.form["isClientLocation"]
+
+            # This table does no accept null inputs
+            query = "INSERT INTO Locations (locationName, address, zipcode, state, isClientLocation) VALUES (%s, %s,%s,%s, %s);"
+            cur = mysql.connection.cursor()
+            cur.execute(query, (locationName, address, zipcode, state, isClientLocation))
+            mysql.connection.commit()
+
+            # redirect back to people page
+            return redirect("/locations")
+    
+
+    # Grab Machines data so we send it to our template to display [IS THIS NECESSARY TO LEAVE IT????
+    # ]
+    if request.method == "GET":
+        # mySQL query to grab all the machines in Machines
+        query = "SELECT locationName, address, zipcode, state, isClientLocation FROM Locations;"
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        data = cur.fetchall()
+
+        # render edit_machine page passing our query data to the edit_machine template (I DON´T THINK WE NEED EDIT FOR LOCATIONS) --> WE COULD DELETE THIS
+        return render_template("locations.j2", data=data)
+
+
+# route for delete functionality, deleting a machine from Locations,
+# we want to pass the 'id' value of that location on button click (see HTML) via the route
+@app.route("/delete_locations/<int:locationId>")
+def delete_locations(locationId):
+    # mySQL query to delete the person with our passed id
+    query = "DELETE FROM Locations WHERE locationId = '%s';"
+    cur = mysql.connection.cursor()
+    cur.execute(query, (locationId,))
+    mysql.connection.commit()
+
+    # redirect back to people page
+    return redirect("/locations")
+
+
+
+
+
+
+
+
 # Listener
 # change the port number if deploying on the flip servers
 if __name__ == "__main__":

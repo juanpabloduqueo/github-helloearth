@@ -11,14 +11,23 @@ db_connection = db.connect_to_database()
 
 @app.route('/')
 def root():
-    return render_template("main.j2")
+    return render_template("machines.j2")
 
-@app.route('/bsg-people')
+@app.route('/machines')
 def bsg_people():
-    query = "SELECT * FROM bsg_people;"
+    query = "SELECT * FROM Machines;"
     cursor = db.execute_query(db_connection=db_connection, query=query)
     results = cursor.fetchall()
-    return render_template("bsg.j2", bsg_people=results)
+    return render_template("machines.j2", machines=results)
+
+@app.route('/locations')
+def bsg_people():
+    query = "SELECT * FROM Locations;"
+    cursor = db.execute_query(db_connection=db_connection, query=query)
+    results = cursor.fetchall()
+    return render_template("locations.j2", locations=results)
+
+
 
 # Listener
 
