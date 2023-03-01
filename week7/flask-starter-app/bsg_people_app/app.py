@@ -243,19 +243,19 @@ def workOrders():
             # account for null locationId
             if locationName == "":
                 # mySQL query to insert a new work order into WorkOrders with our form inputs
-                query = "INSERT INTO WorkOrders (machineId, date, description) VALUES ((SELECT machineId FROM Machines WHERE serial = %s), %s, %s)"                
+                query = "INSERT INTO WorkOrders (machineId, date, description) VALUES ((SELECT machineId FROM Machines WHERE serial = %s), %s, %s);"                
                 cur = mysql.connection.cursor()
                 cur.execute(query, (machineSerial, date, description))
                 mysql.connection.commit()
 
             # no null inputs
             else:
-                query = "INSERT INTO WorkOrders (machineId, locationId, date, description) VALUES ((SELECT machineId FROM Machines WHERE serial = %s), %s, %s, %s)"
+                query = "INSERT INTO WorkOrders (machineId, locationId, date, description) VALUES ((SELECT machineId FROM Machines WHERE serial = %s), %s, %s, %s);"
                 cur = mysql.connection.cursor()
                 cur.execute(query, (machineSerial, locationName, date, description))
                 mysql.connection.commit()
 
-            # redirect back to people page
+            # redirect back to work orders page
             return redirect("/workorders")
 
     # Grab workOrders data so we send it to our template to display
@@ -271,7 +271,7 @@ def workOrders():
         data = cur.fetchall()
 
         # mySQL query to grab work order id/name data for our dropdown
-        query2 = "SELECT workOrderId FROM WorkOrders"
+        query2 = "SELECT workOrderId FROM WorkOrders;"
         cur = mysql.connection.cursor()
         cur.execute(query2)
         workOrderId_data = cur.fetchall()
