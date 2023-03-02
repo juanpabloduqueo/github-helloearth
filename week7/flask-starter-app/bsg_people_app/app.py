@@ -264,7 +264,7 @@ def workOrders():
     # Grab workOrders data so we send it to our template to display
     if request.method == "GET":
         # mySQL query to grab all the work orders in workOrders
-        query = ("SELECT WorkOrders.workOrderId AS 'Order Id'," 
+        query = ("SELECT WorkOrders.workOrderId," 
         "Machines.model AS 'Machine Model', Machines.serial AS 'Machine Serial', Locations.locationName AS 'Location Name', WorkOrders.date AS 'Date', WorkOrders.description AS 'Description'"
         "FROM WorkOrders " 
         "INNER JOIN Machines ON WorkOrders.machineId = Machines.machineId " 
@@ -281,6 +281,20 @@ def workOrders():
 
         # render edit_people page passing our query data and homeworld data to the edit_people template
         return render_template("workorders.j2", data=data, workOrderIds=workOrderId_data)
+
+
+# route for delete functionality, deleting a work order from WorkOrders,
+# we want to pass the 'id' value of that work order on button click (see HTML) via the route
+@app.route("/delete_workorder/<int:workOrderId>")
+def delete_workorder(workOrderId):
+    # mySQL query to delete the person with our passed id
+    query = "DELETE FROM WorkOrders WHERE workOrderId = '%s';"
+    cur = mysql.connection.cursor()
+    cur.execute(query, (workOrderId,))
+    mysql.connection.commit()
+
+    # redirect back to people page
+    return redirect("/workorders")
 
 
 # Listener
