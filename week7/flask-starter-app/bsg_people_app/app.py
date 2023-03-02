@@ -291,8 +291,11 @@ def workOrders():
         # render edit_people page passing our query data and homeworld data to the edit_people template
         return render_template("workorders.j2", data=data, workOrderIds=workOrderId_data)
 
-@app.route("/delete_workorders/<int:workOrderId>")
-def delete_workorders(workOrderId):
+
+# route for delete functionality, deleting a work order from WorkOrders,
+# we want to pass the 'id' value of that work order on button click (see HTML) via the route
+@app.route("/delete_workorder/<int:workOrderId>")
+def delete_workorder(workOrderId):
     # mySQL query to delete the person with our passed id
     query = "DELETE FROM WorkOrders WHERE workOrderId = '%s';"
     cur = mysql.connection.cursor()
