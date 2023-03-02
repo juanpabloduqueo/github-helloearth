@@ -6,6 +6,8 @@
 </head>
 
 <body>
+    <h1>Work Order Products</h1>
+    
     <div>
         <table border="1" cellpadding="5"> 
             <caption> Work Order Product Details: </caption>
@@ -37,7 +39,7 @@
                         <td>{{item[key]}}</td> {% endfor %} 
 
                         <!-- Create our edit/delete buttons -->
-							<td><a href="delete_product/{{item.productId}}" class="btn btn-default">Delete</a></td>
+							<td><a href="delete_product/{{item.workOrderProductId}}" class="btn btn-default">Delete</a></td>
 
                     </tr> 
                     {% endfor %} 
@@ -48,7 +50,7 @@
 	<p>&nbsp;</p>
 
 		<!-- form to INSERT new data into workOrders-->
-		<form id="insertProduct" action="/productdetails" method="post">
+		<form id="insertProduct" action="/productdetails/{{data[0].productId}}" method="post">
 			<legend><strong>Add Product to Work Order</strong></legend>
 			<fieldset>
                 <!-- placeholder shows ghost text, required forces an input -->

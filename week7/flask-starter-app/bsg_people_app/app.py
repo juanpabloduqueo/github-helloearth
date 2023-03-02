@@ -312,7 +312,7 @@ def product_details(workOrderId):
     # Separate out the request methods, in this case this is for a POST
     # insert a work order into the WorkOrders entity
     if request.method == "POST":
-        # fire off if user presses the Add Person button
+        # fire off if user presses the Add Product to Work Order button
         if request.form.get("Add_Product"):
             # grab user form inputs
             productId = request.form["reference"]
@@ -322,13 +322,13 @@ def product_details(workOrderId):
             cur.execute(query, (workOrderId, productId,))
             mysql.connection.commit()
 
-            # redirect back to people page
+            # redirect back to work orders page
             return redirect("/workorders")
 
     # Grab workOrderProducts data so we send it to our template to display
     if request.method == "GET":
         # mySQL query to grab all the work orders in workOrderProducts
-        query = ("SELECT Products.productId, Products.productName, Products.reference "
+        query = ("SELECT WorkOrderProducts.workOrderProductId, Products.productId, Products.productName, Products.reference "
         "FROM WorkOrderProducts "
         "JOIN Products ON WorkOrderProducts.productId = Products.productId "
         "WHERE WorkOrderProducts.workOrderId = %s;")
@@ -342,8 +342,22 @@ def product_details(workOrderId):
         # cur.execute(query2)
         # workOrderId_data = cur.fetchall()
 
-        # render edit_people page passing our query data and homeworld data to the edit_people template
-        return render_template("workorderproducts.j2", data=data, workOrderIds=workOrderId_data)
+        # render work order products page passing our query data to the template
+        return render_template("workorderproducts.j2", data=data)
+
+
+# route for delete functionality, deleting a product from a work order,
+# we want to pass the 'workOrderProductId' value of that product on button click (see HTML) via the route
+@app.route("/productdetails/delete_product/<int:workOrderProductId>")
+def delete_product(workOrderProductId):
+    # mySQL query to delete the product with our passed id
+    query = "DELETE FROM WorkOrderProducts WHERE workOrderProductId = '%s';"
+    cur = mysql.connection.cursor()
+    cur.execute(query, (workOrderProductId,))
+    mysql.connection.commit()
+
+    # redirect back to work orders page
+    return redirect("/workorders")
 
 
 ''' ############################################################################################################################
