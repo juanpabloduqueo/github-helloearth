@@ -194,3 +194,4 @@ INSERT INTO WorkOrderMechanics (workOrderId, mechanicId) VALUES (:workOrderId_fr
 
 -- populate Mechanic Email dropdown with ids
 SELECT mechanicId, email from Mechanics;
+

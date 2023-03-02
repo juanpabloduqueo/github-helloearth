@@ -27,6 +27,10 @@ mysql = MySQL(app)
 
 # Routes
 # have homepage route to /machines by default for convenience, generally this will be your home route with its own template
+''' ############################################################################################################################
+MACHINES ROUTES
+############################################################################################################################ '''
+
 @app.route("/")
 def home():
     return redirect("/machines")
@@ -118,6 +122,9 @@ def edit_machines(machineId):
             # redirect back to people page after we execute the update query
             return redirect("/machines")
 
+''' ############################################################################################################################
+LOCATIONS ROUTES
+############################################################################################################################ '''
 
 # route for locations page
 @app.route("/locations", methods=["POST", "GET"])
@@ -135,7 +142,7 @@ def locations():
             state = request.form["state"]
             isClientLocation = request.form["isClientLocation"]
 
-            # This table does no accept null inputs
+            # This table does not accept null inputs
             query = "INSERT INTO Locations (locationId, locationName, address, zipcode, state, isClientLocation) VALUES (%s, %s, %s,%s,%s, %s);"
             cur = mysql.connection.cursor()
             cur.execute(query, (locationId, locationName, address, zipcode, state, isClientLocation))
@@ -145,8 +152,7 @@ def locations():
             return redirect("/locations")
     
 
-    # Grab Locations data so we send it to our template to display [IS THIS NECESSARY TO LEAVE IT????
-    # ]
+    # Grab Locations data so we send it to our template to display [IS THIS NECESSARY TO LEAVE IT????]
     if request.method == "GET":
         # mySQL query to grab all the locations in Locations
         query = "SELECT locationId, locationName, address, zipcode, state, isClientLocation FROM Locations;"
@@ -171,6 +177,9 @@ def delete_locations(locationId):
     # redirect back to people page
     return redirect("/locations")
 
+''' ############################################################################################################################
+MECHANICS ROUTES
+############################################################################################################################ '''
 
 # route for mechanics page
 @app.route("/mechanics", methods=["POST", "GET"])
@@ -223,8 +232,9 @@ def delete_mechanics(mechanicId):
     # redirect back to people page
     return redirect("/mechanics")
 
-
-
+''' ############################################################################################################################
+WORK ORDER ROUTES
+############################################################################################################################ '''
 
 # route for work orders page
 @app.route("/workorders", methods=["POST", "GET"])
@@ -278,6 +288,91 @@ def workOrders():
 
         # render edit_people page passing our query data and homeworld data to the edit_people template
         return render_template("workorders.j2", data=data, workOrderIds=workOrderId_data)
+
+@app.route("/delete_workorders/<int:workOrderId>")
+def delete_workorders(workOrderId):
+    # mySQL query to delete the person with our passed id
+    query = "DELETE FROM WorkOrders WHERE workOrderId = '%s';"
+    cur = mysql.connection.cursor()
+    cur.execute(query, (workOrderId,))
+    mysql.connection.commit()
+
+    # redirect back to people page
+    return redirect("/workorders")
+
+''' ############################################################################################################################
+WORK ORDER MECHANICS ROUTES
+############################################################################################################################ '''
+
+# WORK ORDER MECHANICS ROUTES
+# route for work orders page
+@app.route("/workordermechanics/<int:workOrderId>", methods=["POST", "GET"])
+def workOrderMechanics(workOrderId):
+    # Separate out the request methods, in this case this is for a POST
+    # insert a work order into the WorkOrders entity
+    if request.method == "POST":
+        # fire off if user presses the Add Person button
+        if request.form.get("Add_Work_Order_Mechanic"):
+            # grab user form inputs
+            workOrderMechanicId = request.form["workOrderMechanicId"]
+            workOrderId = request.form["workOrderId"]
+            mechanicId = request.form["mechanicId"]
+
+            # account for null mechanicId
+            if mechanicId == "":
+                # mySQL query to insert a new work order into WorkOrders with our form inputs
+                query = "INSERT INTO WorkOrderMechanics (workOrderMechanicId) VALUES (%s);"                
+                cur = mysql.connection.cursor()
+                cur.execute(query, (workOrderId))
+                mysql.connection.commit()
+
+            # no null inputs
+            else:
+                query = "INSERT INTO WorkOrderMechanics (workOrderMechanicId, mechanicId) VALUES (%s, %s);"
+                cur = mysql.connection.cursor()
+                cur.execute(query, (workOrderId, mechanicId))
+                mysql.connection.commit()
+
+            # redirect back to work order mechanic page
+            return redirect("/workordermechanics/<int:workOrderId>")
+
+    # Grab workOrderMechanics data of the Work Order so we send it to our template to display
+    if request.method == "GET":
+        # mySQL query to grab all the work order mechanics in the work Order
+        workOrderId = request.form["workOrderId"]
+        query = ("SELECT Mechanics.firstName, Mechanics.lastName FROM WorkOrderMechanics \
+                 JOIN Mechanics ON WorkOrderMechanics.mechanicId = Mechanics.mechanicId \
+                 WHERE WorkOrderMechanics.workOrderId = '%s'" %(workOrderId))
+        '''
+        ("SELECT Mechanics.firstName, Mechanics.lastName FROM WorkOrderMechanics \
+                 JOIN Mechanics ON WorkOrderMechanics.mechanicId = Mechanics.mechanicId \
+                 WHERE WorkOrderMechanics.workOrderId = '%s'" %(workOrderId))
+        '''
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        data = cur.fetchall()
+
+        # mySQL query to grab work order id/name data for our dropdown
+        query2 = "SELECT Mechanics.email FROM Mechanics"
+        cur = mysql.connection.cursor()
+        cur.execute(query2)
+        workOrderId = cur.fetchall()
+
+        # render edit_people page passing our query data and homeworld data to the edit_people template
+        return render_template("workordermechanics.j2", data=data, workOrderId=workOrderId)
+
+@app.route("/delete_workordermechanics/<int:workOrderMechanicId>")
+def delete_workorderMechanics(workOrderMechanicId):
+    # mySQL query to delete the person with our passed id
+    query = "DELETE FROM WorkOrderMechanics WHERE workOrderMechanicId = '%s';"
+    cur = mysql.connection.cursor()
+    cur.execute(query, (workOrderMechanicId,))
+    mysql.connection.commit()
+
+    # redirect back to work order mechanics
+    return redirect("/workorderMechanics")
+
+
 
 
 

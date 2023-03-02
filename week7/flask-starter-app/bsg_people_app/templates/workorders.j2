@@ -85,7 +85,7 @@
 					<!-- Now, iterate through every item in data -->{% for item in data %}
 					    <tr>
 							<!-- Create our edit/delete buttons -->
-							<td><a href="delete_workorder/{{item.id}}" class="btn btn-default">Delete</a></td>
+							<td><a href="delete_workorder/{{item.workOrderId}}" class="btn btn-default">Delete</a></td>
 
 						    <!-- Then iterate through every key in the current item dictionary -->
                             {% for key in item.keys() %}
@@ -97,7 +97,7 @@
                             <!-- Create our edit/delete buttons -->
 							<td><a href="workorderdetails/{{item.id}}" class="btn btn-default">Details</a></td>
 						    <td><a href="productdetails/{{item.id}}" class="btn btn-default">Product Details</a></td>
-						    <td><a href="mechanicdetails/{{item.id}}" class="btn btn-default">Mechanic Details</a></td>
+						    <td><a href="workordermechanics/{{item.workOrderId}}" class="btn btn-default">Mechanic Details</a></td>
 
 					    </tr> 
                         {% endfor %} 
