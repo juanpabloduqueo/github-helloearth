@@ -303,6 +303,50 @@ def delete_workorders(workOrderId):
     return redirect("/workorders")
 
 ''' ############################################################################################################################
+WORK ORDER PRODUCTS ROUTES
+############################################################################################################################ '''
+
+# route for work order products page
+@app.route("/productdetails/<int:workOrderId>", methods=["POST", "GET"])
+def product_details(workOrderId):
+    # Separate out the request methods, in this case this is for a POST
+    # insert a work order into the WorkOrders entity
+    if request.method == "POST":
+        # fire off if user presses the Add Person button
+        if request.form.get("Add_Product"):
+            # grab user form inputs
+            productId = request.form["reference"]
+
+            query = "INSERT INTO WorkOrderProducts (workOrderId, productId) VALUES (%s, %s);"
+            cur = mysql.connection.cursor()
+            cur.execute(query, (workOrderId, productId,))
+            mysql.connection.commit()
+
+            # redirect back to people page
+            return redirect("/workorders")
+
+    # Grab workOrderProducts data so we send it to our template to display
+    if request.method == "GET":
+        # mySQL query to grab all the work orders in workOrderProducts
+        query = ("SELECT Products.productId, Products.productName, Products.reference "
+        "FROM WorkOrderProducts "
+        "JOIN Products ON WorkOrderProducts.productId = Products.productId "
+        "WHERE WorkOrderProducts.workOrderId = %s;")
+        cur = mysql.connection.cursor()
+        cur.execute(query, (workOrderId,))
+        data = cur.fetchall()
+
+        # # mySQL query to grab work order id/name data for our dropdown
+        # query2 = "SELECT workOrderId FROM WorkOrders"
+        # cur = mysql.connection.cursor()
+        # cur.execute(query2)
+        # workOrderId_data = cur.fetchall()
+
+        # render edit_people page passing our query data and homeworld data to the edit_people template
+        return render_template("workorderproducts.j2", data=data, workOrderIds=workOrderId_data)
+
+
+''' ############################################################################################################################
 WORK ORDER MECHANICS ROUTES
 ############################################################################################################################ '''
 
