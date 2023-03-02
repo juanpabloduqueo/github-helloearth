@@ -239,7 +239,6 @@ def workOrders():
             locationId = request.form["locationId"]
             date = request.form["date"]
             description = request.form["description"]
-            print(machineId, locationId, date, description)
 
             # account for null locationId
             if locationId == "0":
