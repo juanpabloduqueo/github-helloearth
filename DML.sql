@@ -157,10 +157,18 @@ SELECT mechanicId, email from Mechanics;
 
 -- display products associated with work order
 -- the current UI displays examples with workOrderId == 1, 2, 8
-SELECT Products.productName AS "Product Name", Products.productReference AS "Product Reference"
-    FROM WorkOrderProducts
-    JOIN Products ON WorkOrderProducts.productId = Products.productId
+
+-- SELECT statement updated to reflect the current select statement in app.py
+SELECT WorkOrderProducts.workOrderProductId, Products.productId, Products.productName, Products.reference 
+    FROM WorkOrderProducts 
+    JOIN Products ON WorkOrderProducts.productId = Products.productId 
     WHERE WorkOrderProducts.workOrderId = :workOrderId_from_input;
+
+-- previous SELECT statement
+-- SELECT Products.productName AS "Product Name", Products.productReference AS "Product Reference"
+--     FROM WorkOrderProducts
+--     JOIN Products ON WorkOrderProducts.productId = Products.productId
+--     WHERE WorkOrderProducts.workOrderId = :workOrderId_from_input;
 
 -- delete product from work order (M-to-M relationship deletion)
 DELETE FROM WorkOrderProducts WHERE workOrderId = :workOrderId_from_the_update_form AND (SELECT productId FROM Products WHERE reference = :referenceInput);
