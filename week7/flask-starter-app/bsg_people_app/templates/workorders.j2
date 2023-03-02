@@ -71,6 +71,8 @@
             {% if data %}
 			    <thead>
 				    <tr>
+						<th>Delete</th>
+
 					    <!-- Iterate through each key in the first entry to get the column name -->
                         {% for key in data[0].keys() %}
 					    
@@ -112,60 +114,23 @@
 			<fieldset>
                 <!-- placeholder shows ghost text, required forces an input -->
 				<label for="make">machineSerial:</label>
-				<select class="form-control" id="serial" name="serial" placeholder="" required>
-				<!-- these are hard coded, but you can add code to make this dynamic -->
-					<option value="0">&nbsp;</option>
-                    <option value="3WN02456">3WN02456</option>
-                    <option value="AKH01920">AKH01920</option>
-                    <option value="KGF02672">KGF02672</option>
-				</select>
-
-				<label for="make">locationName:</label>
-				<select class="form-control" id="locationId" name="locationId" placeholder="">
-				<!-- these are hard coded, but you can add code to make this dynamic -->
-					<option value="0">&nbsp;</option>
-                    <option value="HelloEarth Depot 1">HelloEarth Depot 1</option>
-                    <option value="HelloEarth Depot 2">HelloEarth Depot 2</option>
-                    <option value="Client Site 1">Client Site 1</option>
-				</select>
-
-				<label> date </label> 
-				<input type="text" class="form-control" id="date" name="date">
-
-                <label> description </label> 
-				<input type="text" class="form-control" id="description" name="description">
- 
-            </fieldset>
-
-            <!-- Create 'Add Work Order' and 'Cancel' buttons -->
-			<input type="submit" value="Add Work Order" name="Add_Work_Order" class="btn btn-primary" style="margin:.5rem;">
-			<input class="btn" type="button" value="Cancel" onClick="browseWorkOrders()"> 
-        </form>
-		<p>&nbsp;</p>
-	</div>	<!-- browse -->
-
-	<div id="insert">
-		<!-- form to INSERT new data into workOrders-->
-		<form id="insertWorkOrder" action="/workorders" method="post">
-			<legend><strong>Add Work Order</strong></legend>
-			<fieldset>
-                <!-- placeholder shows ghost text, required forces an input -->
-				<label for="make">machineSerial:</label>
-				<select class="form-control" id="serial" name="serial" placeholder="" required>
+				<select class="form-control" id="serial" name="serial" pattern="[0-4]{1}" placeholder="" required>
 				<!-- these are hard coded, but you can add code to make this dynamic -->
 					<option value="0">&nbsp;</option>
                     <option value="4">3WN02456</option>
                     <option value="5">AKH01920</option>
                     <option value="6">KGF02672</option>
+					<option value="{{data[0].machineId}}" selected></option>
 				</select>
 
 				<label for="make">locationName:</label>
-				<select class="form-control" id="locationId" name="locationId" placeholder="">
+				<select class="form-control" id="locationId" name="locationId" pattern="[0-4]{1}" placeholder="">
 				<!-- these are hard coded, but you can add code to make this dynamic -->
 					<option value="0">&nbsp;</option>
                     <option value="1">HelloEarth Depot 1</option>
                     <option value="2">HelloEarth Depot 2</option>
                     <option value="4">Client Site 1</option>
+					<option value="{{data[0].locationId}}" selected></option>
 				</select>
 
 				<label> date </label> 
@@ -180,33 +145,7 @@
 			<input type="submit" value="Add Work Order" name="Add_Work_Order" class="btn btn-primary" style="margin:.5rem;">
 			<input class="btn" type="button" value="Cancel" onClick="browseWorkOrders()"> 
         </form>
-	</div><!--insert-->
-	<div id="edit">
-		<!-- form to edit data in bsg_people-->
-		<form id="editPerson" action="/edit_people/{{data[0].id}}" method="post">
-			<legend><strong>Edit Person</strong></legend>
-			<fieldset>
-				<input type="hidden" value="{{data[0].id}}" class="form-control" id="personID" name="personID" required>
-				<label for="make">first name:</label>
+	</div>	<!-- browse -->
 
-				<input type="text" class="form-control" id="fname" name="fname" pattern="[A-Za-z]{1,}" placeholder="{{data[0].fname}}" required>
-				<label for="model">last name:</label>
-
-				<input type="text" class="form-control" id="lname" name="lname" pattern="[A-Za-z0-9]{1,}" placeholder="{{data[0].lname}}" required>
-				<label for="year">homeworld:</label>
-
-				<select class="form-control" id="homeworld" name="homeworld" pattern="[0-4]{1}" placeholder="" required>
-					<option value="0">&nbsp;</option>
-					<option value="1">Gemenon</option>
-					<option value="2">Leonis</option>
-					<option value="3">Caprica</option>
-					<option value="{{data[0].homeworld}}" selected></option>
-				</select>
-
-				<label for="color">age:</label>
-				<input type="text" class="form-control" id="age" name="age" pattern="[A-Za-z0-9]{1,}" placeholder="{{data[0].age}}" required> </fieldset>
-				<input class="btn" type="button" value="Cancel" onClick="browsePeople()" style="margin:.5rem;"> 
-        </form>
-	</div><!--edit-->
 </body>
 </html>

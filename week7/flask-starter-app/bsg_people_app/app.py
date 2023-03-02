@@ -235,27 +235,30 @@ def workOrders():
         # fire off if user presses the Add Person button
         if request.form.get("Add_Work_Order"):
             # grab user form inputs
-            machineSerial = request.form["serial"]
-            locationName = request.form["locationId"]
+            machineId = request.form["serial"]
+            locationId = request.form["locationId"]
             date = request.form["date"]
             description = request.form["description"]
+            print(machineId, locationId, date, description)
 
             # account for null locationId
-            if locationName == "":
+            if locationId == "0":
                 # mySQL query to insert a new work order into WorkOrders with our form inputs
-                query = "INSERT INTO WorkOrders (machineId, date, description) VALUES ((SELECT machineId FROM Machines WHERE serial = %s), %s, %s);"                
+                # query = "INSERT INTO WorkOrders (machineId, date, description) VALUES ((SELECT machineId FROM Machines WHERE serial = %s), %s, %s)"  
+                query = "INSERT INTO WorkOrders (machineId, date, description) VALUES (%s, %s, %s)"               
                 cur = mysql.connection.cursor()
-                cur.execute(query, (machineSerial, date, description))
+                cur.execute(query, (machineId, date, description))
                 mysql.connection.commit()
 
             # no null inputs
             else:
-                query = "INSERT INTO WorkOrders (machineId, locationId, date, description) VALUES ((SELECT machineId FROM Machines WHERE serial = %s), %s, %s, %s);"
+                # query = "INSERT INTO WorkOrders (machineId, locationId, date, description) VALUES ((SELECT machineId FROM Machines WHERE serial = %s), %s, %s, %s)"
+                query = "INSERT INTO WorkOrders (machineId, locationId, date, description) VALUES (%s, %s, %s, %s)"
                 cur = mysql.connection.cursor()
-                cur.execute(query, (machineSerial, locationName, date, description))
+                cur.execute(query, (machineId, locationId, date, description))
                 mysql.connection.commit()
 
-            # redirect back to work orders page
+            # redirect back to people page
             return redirect("/workorders")
 
     # Grab workOrders data so we send it to our template to display
@@ -265,24 +268,19 @@ def workOrders():
         "Machines.model AS 'Machine Model', Machines.serial AS 'Machine Serial', Locations.locationName AS 'Location Name', WorkOrders.date AS 'Date', WorkOrders.description AS 'Description'"
         "FROM WorkOrders " 
         "INNER JOIN Machines ON WorkOrders.machineId = Machines.machineId " 
-        "INNER JOIN Locations ON WorkOrders.locationId = Locations.locationId;")
+        "INNER JOIN Locations ON WorkOrders.locationId = Locations.locationId")
         cur = mysql.connection.cursor()
         cur.execute(query)
         data = cur.fetchall()
 
         # mySQL query to grab work order id/name data for our dropdown
-        query2 = "SELECT workOrderId FROM WorkOrders;"
+        query2 = "SELECT workOrderId FROM WorkOrders"
         cur = mysql.connection.cursor()
         cur.execute(query2)
         workOrderId_data = cur.fetchall()
 
         # render edit_people page passing our query data and homeworld data to the edit_people template
         return render_template("workorders.j2", data=data, workOrderIds=workOrderId_data)
-
-
-
-
-
 
 
 # Listener
