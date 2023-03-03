@@ -1,7 +1,7 @@
 -- Group 39
 -- Team Members: Juan Pablo Duque Ochoa, Marco Scandroglio
 -- Project Name: Hello Earth!
--- Project Step 3 Final Version: Design HTML Interface (Group / On Canvas) 
+-- Project Step 4 Draft Version: Implement CRUD for One Entity (Group on Ed Discussions) 
 
 -- Database Manipulation queries organized by page
 -- the colon : character is being used to denote the variables that 
@@ -45,7 +45,7 @@ VALUES (:locationNameInput, :addressInput, :zipcodeInput, :stateInput, :isClient
 -------------------------------------------------------
 
 -- Display Mechanics table on Mechanics page
-SELECT mechanicId AS "Mechanic Id", firstName AS "First Name", lastName AS "Last Name", phone AS Phone, email AS Email
+SELECT mechanicId, firstName AS "First Name", lastName AS "Last Name", phone AS Phone, email AS Email
 FROM Mechanics;
 
 -- add mechanic to Mechanics table
@@ -58,7 +58,7 @@ VALUES (:firstNameInput, :lastNameInput, :phoneInput, :emailInput);
 -------------------------------------------------------
 
 -- Display Products table on Products page
-SELECT productId AS "Product Id", productName AS "Product Name", reference AS Reference, brand AS Brand, description AS Description
+SELECT productId, productName AS "Product Name", reference AS Reference, brand AS Brand, description AS Description
 FROM Products;
 
 -- add product to Products table
@@ -202,4 +202,3 @@ INSERT INTO WorkOrderMechanics (workOrderId, mechanicId) VALUES (:workOrderId_fr
 
 -- populate Mechanic Email dropdown with ids
 SELECT mechanicId, email from Mechanics;
-
