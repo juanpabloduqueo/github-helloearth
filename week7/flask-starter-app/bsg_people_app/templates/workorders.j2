@@ -97,9 +97,9 @@
                             {% endfor %}
 
                             <!-- Create our edit/delete buttons -->
-							<td><a href="workorderdetails/{{item.id}}" class="btn btn-default">Details</a></td>
+							<td><a href="workorderdetails/{{item.workOrderId}}" class="btn btn-default">Details</a></td>
 						    <td><a href="productdetails/{{item.workOrderId}}" class="btn btn-default">Product Details</a></td>
-						    <td><a href="workordermechanics/{{item.workOrderId}}" class="btn btn-default">Mechanic Details</a></td>
+						    <td><a href="mechanicdetails/{{item.workOrderId}}" class="btn btn-default">Mechanic Details</a></td>
 
 					    </tr> 
                         {% endfor %} 
@@ -117,7 +117,10 @@
 				<select class="form-control" id="serial" name="serial" pattern="[0-4]{1}" placeholder="" required>
 				<!-- these are hard coded, but you can add code to make this dynamic -->
 					<option value="0">&nbsp;</option>
-                    <option value="4">3WN02456</option>
+                    <option value="1">1042-48528</option>
+					<option value="2">50027</option>
+					<option value="3">D8T49943</option>
+					<option value="4">3WN02456</option>
                     <option value="5">AKH01920</option>
                     <option value="6">KGF02672</option>
 					<option value="{{data[0].machineId}}" selected></option>
