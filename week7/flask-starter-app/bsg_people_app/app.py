@@ -375,7 +375,7 @@ def workOrderMechanics(workOrderId):
     # insert a work order into the WorkOrders entity
     if request.method == "POST":
         # fire off if user presses the Add Person button
-        if request.form.get("Add_Work_Order_Mechanic"):
+        if request.form.get("Add_Mechanic"):
             # grab user form inputs
             workOrderMechanicId = request.form["workOrderMechanicId"]
             workOrderId = request.form["workOrderId"]
@@ -436,9 +436,12 @@ def delete_workorderMechanics(workOrderMechanicId):
     return redirect("/workorderMechanics")
 
 
+<<<<<<< HEAD
+=======
 
 
 
+>>>>>>> 861973a37222b4f60d17ec5e5cb870a6ad1e1968
 # Listener
 # change the port number if deploying on the flip servers
 if __name__ == "__main__":
