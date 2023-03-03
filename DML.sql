@@ -72,15 +72,15 @@ VALUES (:productNameInput, :referenceInput, :brandInput, :descriptionInput);
 
 -- Display a join of WorkOrders, Machines, and Locations WorkOrders page
 -- shows a more complete description of each work order
-SELECT WorkOrders.workOrderId AS "Order Id", 
+SELECT WorkOrders.workOrderId, 
        Machines.model AS "Machine Model", 
        Machines.serial AS "Machine Serial", 
        Locations.locationName AS "Location Name", 
        WorkOrders.date AS "Date", 
        WorkOrders.description AS "Description"
 FROM WorkOrders 
-INNER JOIN Machines ON WorkOrders.machineId = Machines.machineId 
-INNER JOIN Locations ON WorkOrders.locationId = Locations.locationId;
+LEFT JOIN Machines ON WorkOrders.machineId = Machines.machineId 
+LEFT JOIN Locations ON WorkOrders.locationId = Locations.locationId;
 
 -- create new work order
 INSERT INTO WorkOrders (machineId, locationId, date, description)
