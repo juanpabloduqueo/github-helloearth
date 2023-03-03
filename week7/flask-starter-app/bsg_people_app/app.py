@@ -177,6 +177,62 @@ def delete_locations(locationId):
     # redirect back to people page
     return redirect("/locations")
 
+
+''' ############################################################################################################################
+PRODUCTS ROUTES
+############################################################################################################################ '''
+
+# route for mechanics page
+@app.route("/products", methods=["POST", "GET"])
+def products():
+    # Separate out the request methods, in this case this is for a POST
+    # insert a mechanic into the Mechanics entity
+    if request.method == "POST":
+    # fire off if user presses the Add Location button
+        if request.form.get("Add_Product"):
+            # grab user form inputs
+            productName = request.form["productName"]
+            reference = request.form["reference"]
+            brand = request.form["brand"]
+            description = request.form["description"]
+
+            # This table does no accept null inputs
+            query = "INSERT INTO Products (productName, reference, brand, description) VALUES (%s, %s,%s, %s);"
+            cur = mysql.connection.cursor()
+            cur.execute(query, (productName, reference, brand, description))
+            mysql.connection.commit()
+
+            # redirect back to mechanics page
+            return redirect("/products")
+    
+
+    # Grab Mechanics data so we send it to our template to display [IS THIS NECESSARY TO LEAVE IT????
+    # ]
+    if request.method == "GET":
+        # mySQL query to grab all the machines in Machines
+        query = "SELECT productId, productName AS 'Product Name', reference AS Reference, brand AS Brand, description AS Description FROM Products;"
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        data = cur.fetchall()
+
+        # render edit_machine page passing our query data to the edit_machine template (I DON´T THINK WE NEED EDIT FOR LOCATIONS) --> WE COULD DELETE THIS
+        return render_template("products.j2", data=data)
+
+
+# route for delete functionality, deleting a mechanic from Mechanics,
+# we want to pass the 'id' value of that Mechanic on button click (see HTML) via the route
+@app.route("/delete_product/<int:productId>")
+def delete_product(productId):
+    # mySQL query to delete the person with our passed id
+    query = "DELETE FROM Products WHERE productId = '%s';"
+    cur = mysql.connection.cursor()
+    cur.execute(query, (productId,))
+    mysql.connection.commit()
+
+    # redirect back to people page
+    return redirect("/products")
+
+
 ''' ############################################################################################################################
 MECHANICS ROUTES
 ############################################################################################################################ '''
