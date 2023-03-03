@@ -375,7 +375,7 @@ def workOrderMechanics(workOrderId):
     # insert a work order into the WorkOrders entity
     if request.method == "POST":
         # fire off if user presses the Add Person button
-        if request.form.get("Add_Work_Order_Mechanic"):
+        if request.form.get("Add_Mechanic"):
             # grab user form inputs
             workOrderMechanicId = request.form["workOrderMechanicId"]
             workOrderId = request.form["workOrderId"]
@@ -434,22 +434,6 @@ def delete_workorderMechanics(workOrderMechanicId):
 
     # redirect back to work order mechanics
     return redirect("/workorderMechanics")
-
-
-
-
-# route for delete functionality, deleting a work order from WorkOrders,
-# we want to pass the 'id' value of that work order on button click (see HTML) via the route
-@app.route("/delete_workorder/<int:workOrderId>")
-def delete_workorder(workOrderId):
-    # mySQL query to delete the person with our passed id
-    query = "DELETE FROM WorkOrders WHERE workOrderId = '%s';"
-    cur = mysql.connection.cursor()
-    cur.execute(query, (workOrderId,))
-    mysql.connection.commit()
-
-    # redirect back to people page
-    return redirect("/workorders")
 
 
 # Listener
