@@ -276,8 +276,8 @@ def workOrders():
         query = ("SELECT WorkOrders.workOrderId," 
         "Machines.model AS 'Machine Model', Machines.serial AS 'Machine Serial', Locations.locationName AS 'Location Name', WorkOrders.date AS 'Date', WorkOrders.description AS 'Description'"
         "FROM WorkOrders " 
-        "INNER JOIN Machines ON WorkOrders.machineId = Machines.machineId " 
-        "INNER JOIN Locations ON WorkOrders.locationId = Locations.locationId")
+        "LEFT JOIN Machines ON WorkOrders.machineId = Machines.machineId " 
+        "LEFT JOIN Locations ON WorkOrders.locationId = Locations.locationId")
         cur = mysql.connection.cursor()
         cur.execute(query)
         data = cur.fetchall()
@@ -436,6 +436,12 @@ def delete_workorderMechanics(workOrderMechanicId):
     return redirect("/workorderMechanics")
 
 
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> 861973a37222b4f60d17ec5e5cb870a6ad1e1968
 # Listener
 # change the port number if deploying on the flip servers
 if __name__ == "__main__":
