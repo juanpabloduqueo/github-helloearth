@@ -436,12 +436,9 @@ def delete_workorderMechanics(workOrderMechanicId):
     return redirect("/workorderMechanics")
 
 
-<<<<<<< HEAD
-=======
 
 
 
->>>>>>> 861973a37222b4f60d17ec5e5cb870a6ad1e1968
 # Listener
 # change the port number if deploying on the flip servers
 if __name__ == "__main__":
