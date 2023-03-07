@@ -1,0 +1,161 @@
+<html>
+<!-- Adapted from the workorders.html UI design -->
+<head>
+	<title>Work Orders</title>
+	<link href="/static/style.css" rel="stylesheet" type="text/css" />
+	<script language="JavaScript">
+	function showform(dowhat) {
+		/*
+		 * four DIVS: browse, insert, update, delete
+		 * this function sets one visible the others not
+		 */
+		if(dowhat == 'insert') {
+			document.getElementById('browse').style.display = 'none';
+			document.getElementById('insert').style.display = 'block';
+			document.getElementById('edit').style.display = 'none';
+			document.getElementById('delete').style.display = 'none';
+		} else if(dowhat == 'update') {
+			document.getElementById('browse').style.display = 'none';
+			document.getElementById('insert').style.display = 'none';
+			document.getElementById('edit').style.display = 'block';
+			document.getElementById('delete').style.display = 'none';
+		} else if(dowhat == 'delete') {
+			document.getElementById('browse').style.display = 'none';
+			document.getElementById('insert').style.display = 'none';
+			document.getElementById('edit').style.display = 'none';
+			document.getElementById('delete').style.display = 'block';
+		} else if(dowhat == 'all') {
+			document.getElementById('browse').style.display = 'block';
+			document.getElementById('insert').style.display = 'block';
+			document.getElementById('edit').style.display = 'block';
+			document.getElementById('delete').style.display = 'block';
+		} else { //by default display browse
+			document.getElementById('browse').style.display = 'block';
+			document.getElementById('insert').style.display = 'none';
+			document.getElementById('edit').style.display = 'none';
+			document.getElementById('delete').style.display = 'none';
+		}
+	}
+
+	function newWorkOrder() {
+		showform('insert');
+	}
+
+	function updateWorkOrder(pid) {
+		showform('update');
+	}
+
+	function deleteWorkOrder(pid) {
+		showform('delete');
+	}
+
+	function browseWorkOrders() {
+		showform('browse');
+	}
+
+	function showAll() {
+		showform('all');
+	}
+	</script>
+</head>
+
+<body onload="browseWorkOrders()">
+	<h1>Work Orders</h1> 
+	
+	[ <a href="machines">Machines</a> | <a href="locations">Locations</a> | <a href="products">Products</a> | <a href="mechanics">Mechanics</a> |<a href="workorders">Work Orders</a>]
+	
+	<div id="browse">
+		{# <p><a href="#" onClick="newWorkOrder()">Add New Work Order</a> </p> #}
+		<table border="1" cellpadding="5">
+            <!-- Access data tuple passed from app.py --> 
+            {% if data %}
+			    <thead>
+				    <tr>
+						<th>Delete</th>
+
+					    <!-- Iterate through each key in the first entry to get the column name -->
+                        {% for key in data[0].keys() %}
+					    
+                        <!-- Create a <th> tag with the key inside of it, this will be our header row -->
+					    <th scope="col" data-field="{{ key }}" data-filter-control="input">{{ key }}</th>
+					
+                        <!-- End of this for loop -->
+                        {% endfor %} 
+                    </tr>
+
+				<tbody>
+					<!-- Now, iterate through every item in data -->{% for item in data %}
+					    <tr>
+							<!-- Create our edit/delete buttons -->
+							<td><a href="delete_workorder/{{item.workOrderId}}" class="btn btn-default">Delete</a></td>
+
+						    <!-- Then iterate through every key in the current item dictionary -->
+                            {% for key in item.keys() %}
+
+						    <!-- Create a <td> element with the value of that key in it -->
+						    <td> {{item[key]}} </td> 
+                            {% endfor %}
+
+                            <!-- Create our edit/delete buttons -->
+							<td><a href="workorderdetails/{{item.workOrderId}}" class="btn btn-default">Details</a></td>
+						    <td><a href="productdetails/{{item.workOrderId}}" class="btn btn-default">Product Details</a></td>
+						    <td><a href="mechanicdetails/{{item.workOrderId}}" class="btn btn-default">Mechanic Details</a></td>
+
+					    </tr> 
+                        {% endfor %} 
+                {% endif %} 
+        </table>   
+
+	<p>&nbsp;</p>
+
+		<!-- form to INSERT new data into workOrders-->
+		<form id="insertWorkOrder" action="/workorders" method="post">
+			<legend><strong>Add Work Order</strong></legend>
+			<fieldset>
+                <!-- placeholder shows ghost text, required forces an input -->
+				<label for="make">machineSerial:</label>
+				<select class="form-control" id="serial" name="serial" pattern="[0-4]{1}" placeholder="" required>
+				<!-- these are hard coded, but you can add code to make this dynamic -->
+					<option value="0">&nbsp;</option>
+                    <option value="1">1042-48528</option>
+					<option value="2">50027</option>
+					<option value="3">D8T49943</option>
+					<option value="4">3WN02456</option>
+                    <option value="5">AKH01920</option>
+                    <option value="6">KGF02672</option>
+					<option value="{{data[0].machineId}}" selected></option>
+				</select>
+
+				<label for="make">locationName:</label>
+				<select class="form-control" id="locationId" name="locationId" pattern="[0-4]{1}" placeholder="">
+				<!-- these are hard coded, but you can add code to make this dynamic -->
+					<option value="0">&nbsp;</option>
+                    <option value="1">HelloEarth Depot 1</option>
+                    <option value="2">HelloEarth Depot 2</option>
+                    <option value="4">Client Site 1</option>
+					<option value="{{data[0].locationId}}" selected></option>
+				</select>
+
+				<label> date </label> 
+				<input type="text" class="form-control" id="date" name="date">
+
+                <label> description </label> 
+				<input type="text" class="form-control" id="description" name="description">
+ 
+            </fieldset>
+
+            <!-- Create 'Add Work Order' and 'Cancel' buttons -->
+			<input type="submit" value="Add Work Order" name="Add_Work_Order" class="btn btn-primary" style="margin:.5rem;">
+			<input class="btn" type="button" value="Cancel" onClick="browseWorkOrders()"> 
+        </form>
+	</div>	<!-- browse -->
+	<footer>
+	<p> Project Step 4 Draft Version: Implement CRUD for One Entity</p>
+		<p>[Juan Pablo Duque and Marco Scandroglio]</p>
+	<!--Code Citation:-->
+	<!--Date: 02/24/2023-->
+	<!--Code adapted from Exploration 7 Course Content (Flask Starter App):--> 
+	<!--Source URL: https://github.com/osu-cs340-ecampus/flask-starter-app-->
+	</footer>
+</body>
+</html>
