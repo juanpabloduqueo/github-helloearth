@@ -450,6 +450,7 @@ def workOrderMechanics(workOrderId):
         cur = mysql.connection.cursor()
         cur.execute(query, (workOrderId,))
         data = cur.fetchall()
+        return render_template("workordermechanics.j2", data=data)
 
 @app.route("/mechanicdetails/<int:workOrderId>/delete_workordermechanics/<int:mechanicId>")
 def delete_workorderMechanics(workOrderId, mechanicId):
