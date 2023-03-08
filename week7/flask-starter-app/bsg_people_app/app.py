@@ -424,7 +424,7 @@ WORK ORDER MECHANICS ROUTES
 
 # WORK ORDER MECHANICS ROUTES
 # route for work orders page
-@app.route("/workordermechanics/<int:workOrderId>", methods=["POST", "GET"])
+@app.route("/mechanicdetails/<int:workOrderId>", methods=["POST", "GET"])
 def workOrderMechanics(workOrderId):
     # Separate out the request methods, in this case this is for a POST
     # insert a work order into the WorkOrders entity
@@ -432,63 +432,46 @@ def workOrderMechanics(workOrderId):
         # fire off if user presses the Add Person button
         if request.form.get("Add_Mechanic"):
             # grab user form inputs
-            workOrderMechanicId = request.form["workOrderMechanicId"]
-            workOrderId = request.form["workOrderId"]
             mechanicId = request.form["mechanicId"]
 
             # account for null mechanicId
             if mechanicId == "":
                 # mySQL query to insert a new work order into WorkOrders with our form inputs
-                query = "INSERT INTO WorkOrderMechanics (workOrderMechanicId) VALUES (%s);"                
+                query = "INSERT INTO WorkOrderMechanics (workOrderId) VALUES (%s);"                
                 cur = mysql.connection.cursor()
                 cur.execute(query, (workOrderId))
                 mysql.connection.commit()
 
             # no null inputs
             else:
-                query = "INSERT INTO WorkOrderMechanics (workOrderMechanicId, mechanicId) VALUES (%s, %s);"
-                cur = mysql.connection.cursor()
-                cur.execute(query, (workOrderId, mechanicId))
-                mysql.connection.commit()
+            query = "INSERT INTO WorkOrderMechanics (workOrderId, mechanicId) VALUES (%s, %s);"
+            cur = mysql.connection.cursor()
+            cur.execute(query, (workOrderId, mechanicId))
+            mysql.connection.commit()
 
             # redirect back to work order mechanic page
-            return redirect("/workordermechanics/<int:workOrderId>")
+            return redirect("/mechanicdetails/<int:workOrderId>")
 
     # Grab workOrderMechanics data of the Work Order so we send it to our template to display
     if request.method == "GET":
         # mySQL query to grab all the work order mechanics in the work Order
-        workOrderId = request.form["workOrderId"]
-        query = ("SELECT Mechanics.firstName, Mechanics.lastName FROM WorkOrderMechanics \
-                 JOIN Mechanics ON WorkOrderMechanics.mechanicId = Mechanics.mechanicId \
-                 WHERE WorkOrderMechanics.workOrderId = '%s'" %(workOrderId))
-        '''
-        ("SELECT Mechanics.firstName, Mechanics.lastName FROM WorkOrderMechanics \
-                 JOIN Mechanics ON WorkOrderMechanics.mechanicId = Mechanics.mechanicId \
-                 WHERE WorkOrderMechanics.workOrderId = '%s'" %(workOrderId))
-        '''
+        query = ("SELECT Mechanics.firstName, Mechanics.lastName FROM WorkOrderMechanics\
+                 JOIN Mechanics ON WorkOrderMechanics.mechanicId = Mechanics.mechanicId\
+                 WHERE WorkOrderMechanics.workOrderId = '%s';")
         cur = mysql.connection.cursor()
-        cur.execute(query)
+        cur.execute(query, (workOrderId,))
         data = cur.fetchall()
 
-        # mySQL query to grab work order id/name data for our dropdown
-        query2 = "SELECT Mechanics.email FROM Mechanics"
-        cur = mysql.connection.cursor()
-        cur.execute(query2)
-        workOrderId = cur.fetchall()
-
-        # render edit_people page passing our query data and homeworld data to the edit_people template
-        return render_template("workordermechanics.j2", data=data, workOrderId=workOrderId)
-
-@app.route("/delete_workordermechanics/<int:workOrderMechanicId>")
-def delete_workorderMechanics(workOrderMechanicId):
+@app.route("/mechanicdetails/<int:workOrderId>/delete_mechanics/<int:mechanicId>")
+def delete_workorderMechanics(workOrderId, mechanicId):
     # mySQL query to delete the person with our passed id
-    query = "DELETE FROM WorkOrderMechanics WHERE workOrderMechanicId = '%s';"
+    query = "DELETE FROM WorkOrderMechanics WHERE workOrderId = '%s' AND mechanicId = '%s';"
     cur = mysql.connection.cursor()
-    cur.execute(query, (workOrderMechanicId,))
+    cur.execute(query, (workOrderId, mechanicId))
     mysql.connection.commit()
 
     # redirect back to work order mechanics
-    return redirect("/workorderMechanics")
+    return redirect("/mechanicdetails/<int:workOrderId>")
 
 
 

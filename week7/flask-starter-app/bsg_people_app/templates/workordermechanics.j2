@@ -1,179 +1,4 @@
 <html>
-<!-- Adapted from the people.html UI design -->
-<head>
-	<title>Machines</title>
-	<link href="style.css" rel="stylesheet" type="text/css" />
-	<script language="JavaScript">
-	function showform(dowhat) {
-		/*
-		 * four DIVS: browse, insert, update, delete
-		 * this function sets one visible the others not
-		 */
-		if(dowhat == 'insert') {
-			document.getElementById('browse').style.display = 'none';
-			document.getElementById('insert').style.display = 'block';
-			document.getElementById('edit').style.display = 'none';
-			document.getElementById('delete').style.display = 'none';
-		} else if(dowhat == 'update') {
-			document.getElementById('browse').style.display = 'none';
-			document.getElementById('insert').style.display = 'none';
-			document.getElementById('edit').style.display = 'block';
-			document.getElementById('delete').style.display = 'none';
-		} else if(dowhat == 'delete') {
-			document.getElementById('browse').style.display = 'none';
-			document.getElementById('insert').style.display = 'none';
-			document.getElementById('edit').style.display = 'none';
-			document.getElementById('delete').style.display = 'block';
-		} else if(dowhat == 'all') {
-			document.getElementById('browse').style.display = 'block';
-			document.getElementById('insert').style.display = 'block';
-			document.getElementById('edit').style.display = 'block';
-			document.getElementById('delete').style.display = 'block';
-		} else { //by default display browse
-			document.getElementById('browse').style.display = 'block';
-			document.getElementById('insert').style.display = 'none';
-			document.getElementById('edit').style.display = 'none';
-			document.getElementById('delete').style.display = 'none';
-		}
-	}
-
-	function newWorkOrderMechanic(workOrderMechanicId) {
-		showform('insert');
-	}
-
-	function updateWorkOrderMechanic(workOrderMechanicId) {
-		showform('update');
-	}
-
-	function deleteWorkOrderMechanic(workOrderMechanicId) {
-		showform('delete');
-	}
-
-	function browseWorkOrderMechanics(workOrderId) {
-		showform('browse');
-	}
-
-	function showAll() {
-		showform('all');
-	}
-	</script>
-</head>
-
-<body onload="browseWorkOrderMechanics()">
-	<h1>Machines</h1> 
-	
-	[ <a href="machines">Machines</a> | <a href="locations">Locations</a> | <a href="products">Products</a> | <a href="mechanics">Mechanics</a> |<a href="workorders">Work Orders</a>]
-	
-	<p>&nbsp;</p>
-	<div id="browse">
-		<p><a href="#" onClick="newWorkOrderMechanic()">Add New</a> </p>
-		<table border="1" cellpadding="5">
-            <!-- Access data tuple passed from app.py --> 
-            {% if data %}
-			    <thead>
-				    <tr>
-					    <!-- Iterate through each key in the first entry to get the column name -->
-                        {% for key in data[0].keys() %}
-					    
-                        <!-- Create a <th> tag with the key inside of it, this will be our header row -->
-					    <th scope="col" data-field="{{ key }}" data-filter-control="input">{{ key }}</th>
-					
-                        <!-- End of this for loop -->
-                        {% endfor %} 
-                    </tr>
-
-				<tbody>
-					<!-- Now, iterate through every item in data -->{% for item in data %}
-					    <tr>
-						    <!-- Then iterate through every key in the current item dictionary -->
-                            {% for key in item.keys() %}
-
-						    <!-- Create a <td> element with the value of that key in it -->
-						    <td> {{item[key]}} </td> 
-                            {% endfor %}
-
-                            <!-- Create our edit/delete buttons -->
-						    <td><a href="edit_machines/{{item.machineId}}" class="btn btn-default">Edit</a></td>
-						    <td><a href="delete_machines/{{item.machineId}}" class="btn btn-default">Delete</a></td>
-
-					    </tr> 
-                        {% endfor %} 
-                {% endif %} 
-        </table>   
-	<p>&nbsp;</p>
-	</div>	<!-- browse -->
-	
-	<p>&nbsp;</p>
-	<div id="insert">
-		<!-- form to INSERT new data into Machines-->
-		<form id="insertMachine" action="/machines" method="post">
-			<legend><strong>Add Machine</strong></legend>
-			<fieldset>
-                <!-- placeholder shows ghost text, required forces an input, pattern forces input adherence -->
-				<label for="year">Year:</label>
-				<input type="number" class="form-control" id="year" name="year" min="1900" max="2099" step="1" placeholder="" required>				
-				
-				<label for="make">Make:</label>
-				<input type="text" class="form-control" id="make" name="make" pattern="[A-Za-z0-9\(\)._\-\s]+{1,}" placeholder="" required>
-
-				<label for="model">Model:</label>
-				<input type="text" class="form-control" id="model" name="model" pattern="[A-Za-z0-9\(\)._\-]+{1,}" placeholder="" required>
-
-				<label for="serial">Serial:</label>
-				<input type="text" class="form-control" id="serial" name="serial" pattern="[A-Za-z0-9\(\)._\-]+{1,}" placeholder="" required>
-
-				<label for="class">Class:</label>
-				<input type="text" class="form-control" id="class" name="class" pattern="[A-Za-z0-9\(\)._\-]+{1,}" placeholder="" required>
-            </fieldset>
-
-            <!-- Create 'Add Machine' and 'Cancel' buttons -->
-			<input type="submit" value="Add Machine" name="Add_Machine" class="btn btn-primary" style="margin:.5rem;">
-			<input class="btn" type="button" value="Cancel" onClick="browseMachines()"> 
-        </form>
-	</div><!--insert-->
-	<div id="edit">
-		<!-- form to edit data in Machines-->
-		<form id="editMachine" action="/edit_machines/{{data[0].machineId}}" method="post">
-			<legend><strong>Edit Machine</strong></legend>
-			<fieldset>
-				<input type="hidden" value="{{data[0].machineId}}" class="form-control" id="machineId" name="machineId" required>
-				
-				<label for="year">Year:</label>
-				<input type="number" class="form-control" id="year" name="year" min="1900" max="2099" step="1" placeholder="{{data[0].year}}" required>
-
-				<label for="make">Make:</label>
-				<input type="text" class="form-control" id="make" name="make" pattern="[A-Za-z]{1,}" placeholder="{{data[0].make}}" required>				
-				
-				<label for="model">Model:</label>
-				<input type="text" class="form-control" id="model" name="model" pattern="[A-Za-z0-9]{1,}" placeholder="{{data[0].model}}" required>
-
-				<label for="serial">Serial:</label>
-				<input type="text" class="form-control" id="serial" name="serial" pattern="[A-Za-z0-9]{1,}" placeholder="{{data[0].serial}}" required>
-
-				<label for="class">Class:</label>
-				<input type="text" class="form-control" id="class" name="class" pattern="[A-Za-z0-9]{1,}" placeholder="{{data[0].class}}" required>
-				
-			</fieldset>
-				<input class="btn" type="button" value="Cancel" onClick="browseMachines()" style="margin:.5rem;"> 
-				
-
-		</form>
-	</div><!--edit-->
-	<footer>
-	<p> Project Step 4 Draft Version: Implement CRUD for One Entity</p>
-		<p>[Juan Pablo Duque and Marco Scandroglio]</p>
-	<!--Code Citation:-->
-	<!--Date: 02/24/2023-->
-	<!--Code adapted from Exploration 7 Course Content (Flask Starter App):--> 
-	<!--Source URL: https://github.com/osu-cs340-ecampus/flask-starter-app-->
-	</footer>
-</body>
-</html>
-
-
-<!-- THIS PART OF THE CODE IS TO REVIEW AND THEN MERGE/DELETE WITH THE UPPER PART-->
-
-<html>
 
 <head>
 	<title>Work Order Mechanic Details</title>
@@ -181,9 +6,11 @@
 </head>
 
 <body>
+    <h1>Work Order Products</h1>
+    
     <div>
         <table border="1" cellpadding="5"> 
-            <caption> Work Order Mechanic Details: </caption>
+            <caption> Work Order Product Details: </caption>
             <!-- Access data tuple passed from app.py -->
             {% if data %}
                 <thead>
@@ -196,6 +23,9 @@
                         
                         <!-- End of this for loop -->
                         {% endfor %} 
+
+                        <th>Delete</th>
+
                     </tr>
 
                 <tbody>
@@ -207,50 +37,37 @@
                             
                             <!-- Create a <td> element with the value of that key in it -->
                         <td>{{item[key]}}</td> {% endfor %} 
+
+                        <!-- Create our edit/delete buttons -->
+							<td><a href="/mechanicdetails/{{data[0].workOrderId}}/delete_workordermechanics/{{item.mechanicId}}" class="btn btn-default">Delete</a></td>
+
                     </tr> 
                     {% endfor %} 
             {% endif %} 
         </table>
 
-        <div id="edit">
-            <!-- form to edit data in bsg_people-->
-            <form id="editWorkOrderMechanic" action="/edit_workordermechanics/{{data[0].id}}" method="post">
-                <legend><strong>Edit Person</strong></legend>
-                <fieldset>
-                    <!-- We can preset form inputs to match attributes currently stored for 'id' of person to be updated via value= and accessing our passed data tuple -->
-                    <!-- Create hidden form input to store the passed 'id' of the person we are editing so we can access it easily in our 'POST' method in our app.py -->
-                    <input type="hidden" value="{{data[0].id}}" class="form-control" id="personID" name="personID" required>
-                    <label for="make">first name:</label>
 
-                    <input type="text" value="{{data[0].fname}}" class="form-control" id="fname" name="fname" pattern="[A-Za-z]{1,}" required>
-                    <label for="model">last name:</label>
+	<p>&nbsp;</p>
 
-                    <input type="text" value="{{data[0].lname}}" class="form-control" id="lname" name="lname" pattern="[A-Za-z0-9]{1,}" required>
-                    <label for="year">homeworld:</label>
+		<!-- form to INSERT new data into workOrders-->
+		<form id="insertMechanic" action="/mechanicdetails/{{data[0].workOrderId}}/{{data[0].mechanicId}}" method="post">
+			<legend><strong>Add Mechanic to Work Order</strong></legend>
+			<fieldset>
+                <!-- placeholder shows ghost text, required forces an input -->
+				<label for="email">Email:</label>
+				<select class="form-control" id="email" name="email" placeholder="" required>
+				<!-- these are hard coded, but you can add code to make this dynamic -->
+                    <option value="1">jojo@mecha.com</option>
+                    <option value="2">jimbob@repar.com</option>
+                    <option value="3">hector@servi.com</option>
+				</select>
 
+            </fieldset>
 
-                    <select class="form-control" id="homeworld" name="homeworld" pattern="[0-4]{1}" placeholder="" required> 
-                        <!-- Access our homeworld tuple passed from app.py-->
-                        <option value="0">&nbsp;</option>
-                        {% for homeworld in homeworlds %}
-                                <!-- If the value iterated homeworld matches the value of the homeworld of person currently Editing, pre-select that option -->
-                                {% if homeworld['id'] == data[0].homeworld %}
-                                    <option value="{{ homeworld['id'] }}" selected> {{homeworld['name']}}</option>
-                                {% else %}
-                                    <option value="{{ homeworld['id'] }}"> {{homeworld['name']}}</option> 
-                                {% endif %}
-
-
-                        <!-- End of this for loop -->
-                        {% endfor %} 
-                    </select>	
-                        
-                    <label for="color">age:</label>
-                    <input type="text" value="{{data[0].age}}" class="form-control" id="age" name="age" pattern="[A-Za-z0-9]{1,}"> 
-                
-                </fieldset>
-                <input type="submit" value="Edit Person" name="Edit_Person" class="btn btn-primary" style="margin:.5rem;">
-                <a href='/people'><input class="btn" type="button" value="cancel"></a>
-            </form>
+            <!-- Create 'Add Product to Work Order' and 'Cancel' buttons -->
+			<input type="submit" value="Add Mechanic to Work Order" name="Add_Mechanic" class="btn btn-primary" style="margin:.5rem;">
+			<input class="btn" type="button" value="Cancel" onClick="browseWorkOrders()"> 
+        </form>
+	</div>	<!-- browse -->
 
 </html>
