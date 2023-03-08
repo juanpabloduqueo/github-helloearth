@@ -437,7 +437,7 @@ def workOrderMechanics(workOrderId):
         # fire off if user presses the Add Person button
         if request.form.get("Add_Mechanic"):
             # grab user form inputs
-            mechanicId = request.form["mechanicId"]
+            mechanicId = request.form["email"]
             query = "INSERT INTO WorkOrderMechanics (workOrderId, mechanicId) VALUES (%s, %s);"
             cur = mysql.connection.cursor()
             cur.execute(query, (workOrderId, mechanicId))

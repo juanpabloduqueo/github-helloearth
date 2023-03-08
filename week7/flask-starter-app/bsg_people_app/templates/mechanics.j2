@@ -112,13 +112,13 @@
 			<fieldset>
                 <!-- placeholder shows ghost text, required forces an input, pattern forces input adherence -->
 				<label for="firstName">First Name:</label>
-				<input type="text" class="form-control" id="firstName" name="firstName" pattern="[A-Za-z0-9]{1,}" placeholder="" required>		
+				<input type="text" class="form-control" id="firstName" name="firstName" pattern="[A-Za-z0-9\(\)._\-\s]+{1,}" placeholder="" required>		
 				
 				<label for="lastName">Last Name:</label>
-				<input type="text" class="form-control" id="lastName" name="lastName" pattern="[A-Za-z0-9]{1,}" placeholder="" required>
+				<input type="text" class="form-control" id="lastName" name="lastName" pattern="[A-Za-z0-9\(\)._\-\s]+{1,}" placeholder="" required>
 
 				<label for="phone">Phone:</label>
-				<input type="text" class="form-control" id="phone" name="phone" pattern="[A-Za-z0-9]{1,}" placeholder="" required>
+				<input type="text" class="form-control" id="phone" name="phone" pattern="[A-Za-z0-9\(\)._\-\s]+{1,}" placeholder="" required>
 
 				<label for="email">Email:</label>
 				<input type="text" class="form-control" id="phone" name="phone" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" placeholder="" required>

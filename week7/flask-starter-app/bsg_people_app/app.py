@@ -433,17 +433,6 @@ def workOrderMechanics(workOrderId):
         if request.form.get("Add_Mechanic"):
             # grab user form inputs
             mechanicId = request.form["mechanicId"]
-
-            # account for null mechanicId
-            if mechanicId == "":
-                # mySQL query to insert a new work order into WorkOrders with our form inputs
-                query = "INSERT INTO WorkOrderMechanics (workOrderId) VALUES (%s);"                
-                cur = mysql.connection.cursor()
-                cur.execute(query, (workOrderId))
-                mysql.connection.commit()
-
-            # no null inputs
-            else:
             query = "INSERT INTO WorkOrderMechanics (workOrderId, mechanicId) VALUES (%s, %s);"
             cur = mysql.connection.cursor()
             cur.execute(query, (workOrderId, mechanicId))
@@ -462,7 +451,7 @@ def workOrderMechanics(workOrderId):
         cur.execute(query, (workOrderId,))
         data = cur.fetchall()
 
-@app.route("/mechanicdetails/<int:workOrderId>/delete_mechanics/<int:mechanicId>")
+@app.route("/mechanicdetails/<int:workOrderId>/delete_workordermechanics/<int:mechanicId>")
 def delete_workorderMechanics(workOrderId, mechanicId):
     # mySQL query to delete the person with our passed id
     query = "DELETE FROM WorkOrderMechanics WHERE workOrderId = '%s' AND mechanicId = '%s';"
