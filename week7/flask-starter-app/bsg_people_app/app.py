@@ -135,7 +135,6 @@ def locations():
     # fire off if user presses the Add Location button
         if request.form.get("Add_Location"):
             # grab user form inputs
-            locationId = request.form["locationId"]
             locationName = request.form["locationName"]
             address = request.form["address"]
             zipcode = request.form["zipcode"]
@@ -143,9 +142,9 @@ def locations():
             isClientLocation = request.form["isClientLocation"]
 
             # This table does not accept null inputs
-            query = "INSERT INTO Locations (locationId, locationName, address, zipcode, state, isClientLocation) VALUES (%s, %s, %s,%s,%s, %s);"
+            query = "INSERT INTO Locations (locationName, address, zipcode, state, isClientLocation) VALUES (%s, %s, %s, %s, %s);"
             cur = mysql.connection.cursor()
-            cur.execute(query, (locationId, locationName, address, zipcode, state, isClientLocation))
+            cur.execute(query, (locationName, address, zipcode, state, isClientLocation))
             mysql.connection.commit()
 
             # redirect back to people page
@@ -169,13 +168,14 @@ def locations():
 @app.route("/delete_locations/<int:locationId>")
 def delete_locations(locationId):
     # mySQL query to delete the person with our passed id
-    query = "DELETE FROM Locations WHERE locationId = '%s';"
+    query = "DELETE FROM Locations WHERE locationId = %s;"
     cur = mysql.connection.cursor()
     cur.execute(query, (locationId,))
     mysql.connection.commit()
 
     # redirect back to people page
     return redirect("/locations")
+
 
 
 ''' ############################################################################################################################
@@ -224,7 +224,7 @@ def products():
 @app.route("/delete_product/<int:productId>")
 def delete_product(productId):
     # mySQL query to delete the person with our passed id
-    query = "DELETE FROM Products WHERE productId = '%s';"
+    query = "DELETE FROM Products WHERE productId = %s;"
     cur = mysql.connection.cursor()
     cur.execute(query, (productId,))
     mysql.connection.commit()
@@ -246,16 +246,15 @@ def mechanics():
     # fire off if user presses the Add Location button
         if request.form.get("Add_Mechanic"):
             # grab user form inputs
-            mechanicId = request.form["mechanicId"]
             firstName = request.form["firstName"]
             lastName = request.form["lastName"]
             phone = request.form["phone"]
             email = request.form["email"]
 
             # This table does no accept null inputs
-            query = "INSERT INTO Mechanics (mechanicId, firstName, lastName, phone, email) VALUES (%s, %s, %s,%s, %s);"
+            query = "INSERT INTO Mechanics (firstName, lastName, phone, email) VALUES (%s, %s, %s, %s);"
             cur = mysql.connection.cursor()
-            cur.execute(query, (mechanicId, firstName, lastName, phone, email))
+            cur.execute(query, (firstName, lastName, phone, email))
             mysql.connection.commit()
 
             # redirect back to mechanics page
