@@ -182,6 +182,39 @@ def delete_locations(locationId):
     # redirect back to people page
     return redirect("/locations")
 
+# route for edit functionality, updating the attributes of a location in Locations
+# similar to our delete route, we want to the pass the 'id' value of that location on button click (see HTML) via the route
+@app.route("/edit_locations/<int:locationId>", methods=["POST", "GET"])
+def edit_locations(locationId):
+    if request.method == "GET":
+        # mySQL query to grab the info of the person with our passed id
+        query = "SELECT * FROM Locations WHERE locationId = %s" % (locationId)
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        data = cur.fetchall()
+
+        # render edit_locations page passing our query data edit_locations template
+        return render_template("edit_locations.j2", data=data)
+
+    # meat and potatoes of our update functionality
+    if request.method == "POST":
+        # fire off if user clicks the 'Edit Location' button
+        if request.form.get("Edit_Location"):
+            # grab user form inputs
+            locationName = request.form["locationName"]
+            address = request.form["address"]
+            zipcode = request.form["zipcode"]
+            state = request.form["state"]
+            isClientLocation = request.form["isClientLocation"]
+
+            # This table does not accept null inputs
+            query = "UPDATE Locations SET Locations.locationName = %s, Locations.address = %s, Locations.zipcode = %s, Locations.state = %s, Locations.isClientLocation = %s  WHERE Locations.locationId = %s"
+            cur = mysql.connection.cursor()
+            cur.execute(query, (locationName, address, zipcode, state, isClientLocation, locationId))
+            mysql.connection.commit()
+            
+            # redirect back to locations page after we execute the update query
+            return redirect("/locations")
 
 ''' ############################################################################################################################
 PRODUCTS ROUTES
