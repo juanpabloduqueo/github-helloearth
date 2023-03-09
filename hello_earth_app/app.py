@@ -385,12 +385,12 @@ def product_details(workOrderId):
             cur.execute(query, (workOrderId, productId,))
             mysql.connection.commit()
 
-            # redirect back to work orders page
-            return redirect("/workorders")
+            # redirect to work order product page
+            current_url = request.referrer or url_for('index')
+            return redirect(current_url)
 
     # Grab workOrderProducts data so we send it to our template to display
     if request.method == "GET":
-        # mySQL query to grab all the work orders in workOrderProducts
         query = ("SELECT WorkOrderProducts.workOrderProductId, Products.productId, Products.productName, Products.reference "
         "FROM WorkOrderProducts "
         "JOIN Products ON WorkOrderProducts.productId = Products.productId "
@@ -399,14 +399,14 @@ def product_details(workOrderId):
         cur.execute(query, (workOrderId,))
         data = cur.fetchall()
 
-        # # mySQL query to grab work order id/name data for our dropdown
-        # query2 = "SELECT workOrderId FROM WorkOrders"
-        # cur = mysql.connection.cursor()
-        # cur.execute(query2)
-        # workOrderId_data = cur.fetchall()
+        # check if there are any records in the workorderproducts intersection table for this work order
+        message = None
+        if not data:
+            message = "There are no products assigned to this work order yet."
 
         # render work order products page passing our query data to the template
-        return render_template("workorderproducts.j2", data=data)
+        # workOrderId is passed to the template so it is defined in the action for the form
+        return render_template("workorderproducts.j2", data=data, message=message, workOrderId=workOrderId)
 
 
 # route for delete functionality, deleting a product from a work order,
@@ -419,8 +419,9 @@ def delete_product_from_work_order(workOrderProductId):
     cur.execute(query, (workOrderProductId,))
     mysql.connection.commit()
 
-    # redirect back to work orders page
-    return redirect("/workorders")
+    # redirect to work order product page
+    current_url = request.referrer or url_for('index')
+    return redirect(current_url)
 
 
 ''' ############################################################################################################################
