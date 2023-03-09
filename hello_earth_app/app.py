@@ -432,6 +432,11 @@ def product_details(workOrderId):
         cur.execute(query, (workOrderId,))
         data = cur.fetchall()
 
+        dropdown_query = "SELECT productId, reference FROM Products;"
+        cur = mysql.connection.cursor()
+        cur.execute(dropdown_query)
+        dropdown_data = cur.fetchall()
+
         # check if there are any records in the workorderproducts intersection table for this work order
         message = None
         if not data:
@@ -439,7 +444,7 @@ def product_details(workOrderId):
 
         # render work order products page passing our query data to the template
         # workOrderId is passed to the template so it is defined in the action for the form
-        return render_template("workorderproducts.j2", data=data, message=message, workOrderId=workOrderId)
+        return render_template("workorderproducts.j2", data=data, message=message, workOrderId=workOrderId, dropdown_data=dropdown_data)
 
 
 # route for delete functionality, deleting a product from a work order,

@@ -67,10 +67,10 @@
                 <!-- placeholder shows ghost text, required forces an input -->
                 <label for="make">reference:</label>
                 <select class="form-control" id="reference" name="reference" placeholder="" required>
-                <!-- these are hard coded, but you can add code to make this dynamic -->
-                    <option value="1">REF001</option>
-                    <option value="2">REF002</option>
-                    <option value="3">REF003</option>
+                <!-- dynamic drop down -->
+                    {% for x in dropdown_data %}
+                    <option value="{{x.productId}}">{{x.reference}}</option>
+                    {% endfor %}
                 </select>
 
             </fieldset>
