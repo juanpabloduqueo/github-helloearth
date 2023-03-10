@@ -6,13 +6,17 @@
 </head>
 
 <body>
-    <h1>Work Order Products</h1>
+    <h1>Work Order Mechanics</h1>
     
     <div>
-        <table border="1" cellpadding="5"> 
-            <caption> Work Order Product Details: </caption>
-            <!-- Access data tuple passed from app.py -->
-            {% if data %}
+        {# if the table is empty display a message #}
+        {% if message %}
+            <p>{{ message }}</p>
+        {% elif data %}
+            <table border="1" cellpadding="5"> 
+                <caption> Work Order Product Details: </caption>
+                <!-- Access data tuple passed from app.py -->
+                    
                 <thead>
                     <tr>
                         <!-- Iterate through each key in the first entry to get the column name -->
@@ -35,40 +39,55 @@
                             <!-- Then iterate through every key in the current item dictionary -->
                             {% for key in item.keys() %}
                             
-                            <!-- Create a <td> element with the value of that key in it -->
-                        <td>{{item[key]}}</td> {% endfor %} 
+                                <!-- Create a <td> element with the value of that key in it -->
+                                <td>{{item[key]}}</td> 
+                            
+                            {% endfor %} 
 
                         <!-- Create our edit/delete buttons -->
-							<td><a href="delete_workordermechanics/{{item.workOrderMechanicId}}" class="btn btn-default">Delete</a></td>
+                            <td><a href="/mechanicdetails/delete_mechanics/{{item.workOrderMechanicId}}" class="btn btn-default">Delete</a></td>
 
-                    </tr> 
+                        </tr> 
                     {% endfor %} 
-            {% endif %} 
-        </table>
+                </tbody>
+            </table>
+        {% endif %} 
+    </div>
 
 
 	<p>&nbsp;</p>
 
+
+    <div> 
+
 		<!-- form to INSERT new data into workOrders-->
-		<form id="insertMechanic" action="/mechanicdetails/{{data[0].workOrderMechanicId}}" method="post">
+		<form id="insertMechanic" action="/mechanicdetails/{{data[0].workOrderId}}" method="post">
 			<legend><strong>Add Mechanic to Work Order</strong></legend>
 			<fieldset>
                 <!-- placeholder shows ghost text, required forces an input -->
 				<label for="email">Email:</label>
 				<select class="form-control" id="email" name="email" placeholder="" required>
-				<!-- these are hard coded, but you can add code to make this dynamic -->
-                    <option value="1">jojo@mecha.com</option>
-                    <option value="2">jimbob@repar.com</option>
-                    <option value="3">hector@servi.com</option>
-				</select>
+				<!-- dynamic drop down -->
+                    {% for x in dropdown_data %}
+                    <option value="{{x.mechanicId}}">{{x.email}}</option>
+                    {% endfor %}
+                </select>               
 
             </fieldset>
 
-            <!-- Create 'Add Product to Work Order' and 'Cancel' buttons -->
+            <!-- Create 'Add Mechanic to Work Order' and 'Cancel' buttons -->
 			<input type="submit" value="Add Mechanic to Work Order" name="Add_Mechanic" class="btn btn-primary" style="margin:.5rem;">
 			<input class="btn" type="button" value="Cancel" onClick="browseWorkOrders()"> 
         </form>
+        
 	</div>	<!-- browse -->
-
+    <footer>
+	<p> Project Step 4 Draft Version: Implement CRUD for One Entity</p>
+		<p>[Juan Pablo Duque and Marco Scandroglio]</p>
+	<!--Code Citation:-->
+	<!--Date: 02/24/2023-->
+	<!--Code adapted from Exploration 7 Course Content (Flask Starter App):--> 
+	<!--Source URL: https://github.com/osu-cs340-ecampus/flask-starter-app-->
+	</footer>
 </body>
 </html>
