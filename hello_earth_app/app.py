@@ -325,6 +325,39 @@ def delete_mechanics(mechanicId):
     # redirect back to people page
     return redirect("/mechanics")
 
+# route for edit functionality, updating the attributes of a mechanic in Mechanics
+# similar to our delete route, we want to the pass the 'id' value of that mechanic on button click (see HTML) via the route
+@app.route("/edit_mechanics/<int:mechanicId>", methods=["POST", "GET"])
+def edit_mechanics(mechanicId):
+    if request.method == "GET":
+        # mySQL query to grab the info of the person with our passed id
+        query = "SELECT * FROM Locations WHERE mechanicId = %s" % (mechanicId)
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        data = cur.fetchall()
+
+        # render edit_mechanics page passing our query data edit_mechanics template
+        return render_template("edit_mechanics.j2", data=data)
+
+    # meat and potatoes of our update functionality
+    if request.method == "POST":
+        # fire off if user clicks the 'Edit Location' button
+        if request.form.get("Edit_Mechanic"):
+            # grab user form inputs
+            firstName = request.form["firstName"]
+            lastName = request.form["lastName"]
+            phone = request.form["phone"]
+            email = request.form["email"]
+
+            # This table does not accept null inputs
+            query = "UPDATE Mechanics SET Mechanics.firstName = %s, Mechanics.lastName = %s, Mechanics.phone = %s, Mechanics.email = %s WHERE Mechanics.mechanicId = %s"
+            cur = mysql.connection.cursor()
+            cur.execute(query, (firstName, lastName, phone, email))
+            mysql.connection.commit()
+            
+            # redirect back to locations page after we execute the update query
+            return redirect("/mechanics")
+
 ''' ############################################################################################################################
 WORK ORDER ROUTES
 ############################################################################################################################ '''
@@ -483,7 +516,8 @@ def workOrderMechanics(workOrderId):
             mysql.connection.commit()
 
             # redirect back to work order mechanic page
-            return redirect("/mechanicdetails/<int:workOrderId>")
+            current_url = request.referrer or url_for('index')
+            return redirect(current_url)
 
     # Grab workOrderMechanics data of the Work Order so we send it to our template to display
     if request.method == "GET":
@@ -495,18 +529,32 @@ def workOrderMechanics(workOrderId):
         cur.execute(query, (workOrderId,))
         data = cur.fetchall()
 
-        return render_template("workordermechanics.j2", data=data)
+        dropdown_query = "SELECT mechanicId, email FROM Mechanics;"
+        cur = mysql.connection.cursor()
+        cur.execute(dropdown_query)
+        dropdown_data = cur.fetchall()
 
-@app.route("/mechanicdetails/<int:workOrderId>/delete_workordermechanics/<int:mechanicId>")
-def delete_workorderMechanics(workOrderId, mechanicId):
-    # mySQL query to delete the person with our passed id
-    query = "DELETE FROM WorkOrderMechanics WHERE workOrderId = '%s' AND mechanicId = '%s';"
+        # check if there are any records in the workordermechanics intersection table for this work order
+        message = None
+        if not data:
+            message = "There are no mechanics assigned to this work order yet."
+
+        # render work order products page passing our query data to the template
+        # workOrderId is passed to the template so it is defined in the action for the form
+        return render_template("workordermechanics.j2", data=data, message=message, workOrderId=workOrderId, dropdown_data=dropdown_data)
+
+
+@app.route("/mechanicdetails/delete_mechanics/<int:workOrderMechanicId>") 
+def delete_workorderMechanics(workOrderMechanicId ):
+    # mySQL query to delete the mechanic with our passed id
+    query = "DELETE FROM WorkOrderMechanics WHERE workOrderMechanicId = '%s';"
     cur = mysql.connection.cursor()
-    cur.execute(query, (workOrderId, mechanicId))
+    cur.execute(query, (workOrderMechanicId,))
     mysql.connection.commit()
 
-    # redirect back to work order mechanics
-    return redirect("/mechanicdetails/<int:workOrderId>")
+    # redirect to work order mechanics page
+    current_url = request.referrer or url_for('index')
+    return redirect(current_url)
 
 
 # Listener
