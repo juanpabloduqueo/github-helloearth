@@ -83,9 +83,11 @@
                         <!-- End of this for loop -->
                         {% endfor %} 
                     </tr>
+				</thead>
 
 				<tbody>
-					<!-- Now, iterate through every item in data -->{% for item in data %}
+					<!-- Now, iterate through every item in data -->
+						{% for item in data %}
 					    <tr>
 						    <!-- Then iterate through every key in the current item dictionary -->
                             {% for key in item.keys() %}
@@ -121,7 +123,7 @@
 				<input type="text" class="form-control" id="phone" name="phone" pattern="[A-Za-z0-9]{1,}" placeholder="" required>
 
 				<label for="email">Email:</label>
-				<input type="text" class="form-control" id="phone" name="phone" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" placeholder="" required>
+				<input type="text" class="form-control" id="email" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" placeholder="" required>
 
 				<!--<input type="checkbox" class="form-control" id="isClientLocation" name="isClientLocation" value="checked" required> -->
             </fieldset>
