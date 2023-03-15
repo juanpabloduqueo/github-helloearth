@@ -445,7 +445,6 @@ def product_details(workOrderId):
         if request.form.get("Add_Product"):
             # grab user form inputs
             productId = request.form["reference"]
-
             query = "INSERT INTO WorkOrderProducts (workOrderId, productId) VALUES (%s, %s);"
             cur = mysql.connection.cursor()
             cur.execute(query, (workOrderId, productId,))
@@ -522,7 +521,7 @@ def workOrderMechanics(workOrderId):
     # Grab workOrderMechanics data of the Work Order so we send it to our template to display
     if request.method == "GET":
         # mySQL query to grab all the work order mechanics in the work Order
-        query = ("SELECT Mechanics.firstName, Mechanics.lastName FROM WorkOrderMechanics\
+        query = ("SELECT WorkOrderMechanics.workOrderMechanicId, Mechanics.firstName, Mechanics.lastName FROM WorkOrderMechanics\
                  JOIN Mechanics ON WorkOrderMechanics.mechanicId = Mechanics.mechanicId\
                  WHERE WorkOrderMechanics.workOrderId = '%s';")
         cur = mysql.connection.cursor()

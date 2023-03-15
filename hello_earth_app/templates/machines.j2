@@ -2,7 +2,7 @@
 <!-- Adapted from the people.html UI design -->
 <head>
 	<title>Machines</title>
-	<link href="style.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"/>
 	<script language="JavaScript">
 	function showform(dowhat) {
 		/*
@@ -62,7 +62,11 @@
 <body onload="browseMachines()">
 	<h1>Machines</h1> 
 	
-	[ <a href="machines">Machines</a> | <a href="locations">Locations</a> | <a href="products">Products</a> | <a href="mechanics">Mechanics</a> |<a href="workorders">Work Orders</a>]
+	<a href="machines">Machines</a> 
+	<a href="locations">Locations</a>
+	<a href="products">Products</a>
+	<a href="mechanics">Mechanics</a>
+	<a href="workorders">Work Orders</a>
 	
 	<p>&nbsp;</p>
 	<div id="browse">
@@ -160,7 +164,8 @@
 		</form>
 	</div><!--edit-->
 	<footer>
-	<p> Project Step 4 Draft Version: Implement CRUD for One Entity</p>
+	<p> Portfolio Project: database-driven website that records Products used on Work Orders performed on Machines by Mechanics in a specific Location.</p>
+		<p>Introduction to Databases (CS340)</p>
 		<p>[Juan Pablo Duque and Marco Scandroglio]</p>
 	<!--Code Citation:-->
 	<!--Date: 02/24/2023-->

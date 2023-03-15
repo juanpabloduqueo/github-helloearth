@@ -2,7 +2,7 @@
 <!-- Adapted from the people.html UI design -->
 <head>
 	<title>Locations</title>
-	<link href="style.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"/>
 	<script language="JavaScript">
 	function showform(dowhat) {
 		/*
@@ -14,12 +14,12 @@
 			document.getElementById('insert').style.display = 'block';
 			document.getElementById('edit').style.display = 'none';
 			document.getElementById('delete').style.display = 'none';
-		} else if(dowhat == 'update') {
+		} /*else if(dowhat == 'update') {
 			document.getElementById('browse').style.display = 'none';
 			document.getElementById('insert').style.display = 'none';
 			document.getElementById('edit').style.display = 'block';
 			document.getElementById('delete').style.display = 'none';
-		} else if(dowhat == 'delete') {
+		}*/else if(dowhat == 'delete') {
 			document.getElementById('browse').style.display = 'none';
 			document.getElementById('insert').style.display = 'none';
 			document.getElementById('edit').style.display = 'none';
@@ -41,11 +41,11 @@
 		showform('insert');
 	}
 
-
+	/*
 	function updateLocation(locationId) {
 		showform('update');
 	}
-	
+	*/
 
 	function deleteLocation(locationId) {
 		showform('delete');
@@ -64,9 +64,14 @@
 <body onload="browseLocations()">
 	<h1>Locations</h1> 
 	
-	[ <a href="machines">Machines</a> | <a href="locations">Locations</a> | <a href="products">Products</a> | <a href="mechanics">Mechanics</a> |<a href="workorders">Work Orders</a>]
+	<a href="machines">Machines</a> 
+	<a href="locations">Locations</a>
+	<a href="products">Products</a>
+	<a href="mechanics">Mechanics</a>
+	<a href="workorders">Work Orders</a>
 	
 	<p>&nbsp;</p>
+
 	<div id="browse">
 		<p><a href="#" onClick="newLocation()">Add New</a> </p>
 		<table border="1" cellpadding="5">
@@ -130,7 +135,7 @@
 
             <!-- Create 'Add Location' and 'Cancel' buttons -->
 			<input type="submit" value="Add Location" name="Add_Location" class="btn btn-primary" style="margin:.5rem;">
-			<input class="btn" type="button" value="Cancel" onClick="browseLocations()"> 
+			<a href='/locations'><input class="btn" type="button" value="cancel"></a>
         </form>
 	</div><!--insert-->
 	

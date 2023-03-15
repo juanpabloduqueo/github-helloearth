@@ -2,31 +2,45 @@
 
 <head>
 	<title>Work Order Product Details</title>
-    <link href="style.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"/>
 </head>
+
+
 
 <body>
     <h1>Work Order Products</h1>
-    
+
+    <a href="machines">Machines</a> 
+	<a href="locations">Locations</a>
+	<a href="products">Products</a>
+	<a href="mechanics">Mechanics</a>
+	<a href="workorders">Work Orders</a>
+	
+	<p>&nbsp;</p>
+
     <div>
-        <table border="1" cellpadding="5"> 
-            <caption> Work Order Product Details: </caption>
-            <!-- Access data tuple passed from app.py -->
-            {% if data %}
+        {# if the table is empty display a message #}
+        {% if message %}
+            <p>{{ message }}</p>
+        {% elif data %}
+            <table border="1" cellpadding="5">
+                <caption> Work Order Product Details: </caption>
+                <!-- Access data tuple passed from app.py -->
+
                 <thead>
                     <tr>
                         <!-- Iterate through each key in the first entry to get the column name -->
                         {% for key in data[0].keys() %}
 
-                        <!-- Create a <th> tag with the key inside of it, this will be our header row -->
-                        <th scope="col" data-field="{{ key }}" data-filter-control="input">{{ key }}</th>
-                        
-                        <!-- End of this for loop -->
-                        {% endfor %} 
+                            <!-- Create a <th> tag with the key inside of it, this will be our header row -->
+                            <th scope="col" data-field="{{ key }}" data-filter-control="input">{{ key }}</th>
+
+                        {% endfor %}
 
                         <th>Delete</th>
 
                     </tr>
+                </thead>
 
                 <tbody>
                     <!-- Now, iterate through every item in data -->
@@ -34,40 +48,56 @@
                         <tr>
                             <!-- Then iterate through every key in the current item dictionary -->
                             {% for key in item.keys() %}
-                            
-                            <!-- Create a <td> element with the value of that key in it -->
-                        <td>{{item[key]}}</td> {% endfor %} 
 
-                        <!-- Create our edit/delete buttons -->
-							<td><a href="delete_product/{{item.workOrderProductId}}" class="btn btn-default">Delete</a></td>
+                                <!-- Create a <td> element with the value of that key in it -->
+                                <td>{{item[key]}}</td>
 
-                    </tr> 
-                    {% endfor %} 
-            {% endif %} 
-        </table>
+                            {% endfor %}
+
+                            <!-- Create our edit/delete buttons -->
+                            <td><a href="/productdetails/delete_product/{{item.workOrderProductId}}" class="btn btn-default">Delete</a></td>
+
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    </div>
 
 
 	<p>&nbsp;</p>
 
-		<!-- form to INSERT new data into workOrders-->
-		<form id="insertProduct" action="/productdetails/{{data[0].workOrderProductId}}" method="post">
-			<legend><strong>Add Product to Work Order</strong></legend>
-			<fieldset>
+
+    <div>
+
+        <!-- form to INSERT new data into workOrders-->
+        <form id="insertProduct" action="/productdetails/{{workOrderId}}" method="post">
+            <legend><strong>Add Product to Work Order</strong></legend>
+            <fieldset>
                 <!-- placeholder shows ghost text, required forces an input -->
-				<label for="make">reference:</label>
-				<select class="form-control" id="reference" name="reference" placeholder="" required>
-				<!-- these are hard coded, but you can add code to make this dynamic -->
-                    <option value="1">REF001</option>
-                    <option value="2">REF002</option>
-                    <option value="3">REF003</option>
-				</select>
+                <label for="make">reference:</label>
+                <select class="form-control" id="reference" name="reference" placeholder="" required>
+                <!-- dynamic drop down -->
+                    {% for x in dropdown_data %}
+                    <option value="{{x.productId}}">{{x.reference}}</option>
+                    {% endfor %}
+                </select>
 
             </fieldset>
 
             <!-- Create 'Add Product to Work Order' and 'Cancel' buttons -->
-			<input type="submit" value="Add Product to Work Order" name="Add_Product" class="btn btn-primary" style="margin:.5rem;">
-			<input class="btn" type="button" value="Cancel" onClick="browseWorkOrders()"> 
+            <input type="submit" value="Add Product to Work Order" name="Add_Product" class="btn btn-primary" style="margin:.5rem;">
+            <a href='/workorders'><input class="btn" type="button" value="cancel"></a>
         </form>
-	</div>	<!-- browse -->
 
+	</div>	<!-- browse -->
+	<footer>
+	<p> Project Step 4 Draft Version: Implement CRUD for One Entity</p>
+		<p>[Juan Pablo Duque and Marco Scandroglio]</p>
+	<!--Code Citation:-->
+	<!--Date: 02/24/2023-->
+	<!--Code adapted from Exploration 7 Course Content (Flask Starter App):--> 
+	<!--Source URL: https://github.com/osu-cs340-ecampus/flask-starter-app-->
+	</footer>
+</body>
 </html>

@@ -168,7 +168,7 @@ def locations():
 @app.route("/delete_locations/<int:locationId>")
 def delete_locations(locationId):
     # mySQL query to delete the person with our passed id
-    query = "DELETE FROM Locations WHERE locationId = %s;"
+    query = "DELETE FROM Locations WHERE locationId = '%s';"
     cur = mysql.connection.cursor()
     cur.execute(query, (locationId,))
     mysql.connection.commit()
@@ -176,7 +176,39 @@ def delete_locations(locationId):
     # redirect back to people page
     return redirect("/locations")
 
+# route for edit functionality, updating the attributes of a location in Locations
+# similar to our delete route, we want to the pass the 'id' value of that location on button click (see HTML) via the route
+@app.route("/edit_locations/<int:locationId>", methods=["POST", "GET"])
+def edit_locations(locationId):
+    if request.method == "GET":
+        # mySQL query to grab the info of the person with our passed id
+        query = "SELECT * FROM Locations WHERE locationId = %s" % (locationId)
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        data = cur.fetchall()
 
+        # render edit_locations page passing our query data edit_locations template
+        return render_template("edit_locations.j2", data=data)
+
+    # meat and potatoes of our update functionality
+    if request.method == "POST":
+        # fire off if user clicks the 'Edit Location' button
+        if request.form.get("Edit_Location"):
+            # grab user form inputs
+            locationName = request.form["locationName"]
+            address = request.form["address"]
+            zipcode = request.form["zipcode"]
+            state = request.form["state"]
+            isClientLocation = request.form["isClientLocation"]
+
+            # This table does not accept null inputs
+            query = "UPDATE Locations SET Locations.locationName = %s, Locations.address = %s, Locations.zipcode = %s, Locations.state = %s, Locations.isClientLocation = %s  WHERE Locations.locationId = %s"
+            cur = mysql.connection.cursor()
+            cur.execute(query, (locationName, address, zipcode, state, isClientLocation, locationId))
+            mysql.connection.commit()
+            
+            # redirect back to locations page after we execute the update query
+            return redirect("/locations")
 
 ''' ############################################################################################################################
 PRODUCTS ROUTES
@@ -224,7 +256,7 @@ def products():
 @app.route("/delete_product/<int:productId>")
 def delete_product(productId):
     # mySQL query to delete the person with our passed id
-    query = "DELETE FROM Products WHERE productId = %s;"
+    query = "DELETE FROM Products WHERE productId = '%s';"
     cur = mysql.connection.cursor()
     cur.execute(query, (productId,))
     mysql.connection.commit()
@@ -286,6 +318,39 @@ def delete_mechanics(mechanicId):
 
     # redirect back to people page
     return redirect("/mechanics")
+
+# route for edit functionality, updating the attributes of a mechanic in Mechanics
+# similar to our delete route, we want to the pass the 'id' value of that mechanic on button click (see HTML) via the route
+@app.route("/edit_mechanics/<int:mechanicId>", methods=["POST", "GET"])
+def edit_mechanics(mechanicId):
+    if request.method == "GET":
+        # mySQL query to grab the info of the person with our passed id
+        query = "SELECT * FROM Locations WHERE mechanicId = %s" % (mechanicId)
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        data = cur.fetchall()
+
+        # render edit_mechanics page passing our query data edit_mechanics template
+        return render_template("edit_mechanics.j2", data=data)
+
+    # meat and potatoes of our update functionality
+    if request.method == "POST":
+        # fire off if user clicks the 'Edit Location' button
+        if request.form.get("Edit_Mechanic"):
+            # grab user form inputs
+            firstName = request.form["firstName"]
+            lastName = request.form["lastName"]
+            phone = request.form["phone"]
+            email = request.form["email"]
+
+            # This table does not accept null inputs
+            query = "UPDATE Mechanics SET Mechanics.firstName = %s, Mechanics.lastName = %s, Mechanics.phone = %s, Mechanics.email = %s WHERE Mechanics.mechanicId = %s"
+            cur = mysql.connection.cursor()
+            cur.execute(query, (firstName, lastName, phone, email))
+            mysql.connection.commit()
+            
+            # redirect back to locations page after we execute the update query
+            return redirect("/mechanics")
 
 ''' ############################################################################################################################
 WORK ORDER ROUTES
@@ -380,12 +445,12 @@ def product_details(workOrderId):
             cur.execute(query, (workOrderId, productId,))
             mysql.connection.commit()
 
-            # redirect back to work orders page
-            return redirect("/workorders")
+            # redirect to work order product page
+            current_url = request.referrer or url_for('index')
+            return redirect(current_url)
 
     # Grab workOrderProducts data so we send it to our template to display
     if request.method == "GET":
-        # mySQL query to grab all the work orders in workOrderProducts
         query = ("SELECT WorkOrderProducts.workOrderProductId, Products.productId, Products.productName, Products.reference "
         "FROM WorkOrderProducts "
         "JOIN Products ON WorkOrderProducts.productId = Products.productId "
@@ -394,14 +459,19 @@ def product_details(workOrderId):
         cur.execute(query, (workOrderId,))
         data = cur.fetchall()
 
-        # # mySQL query to grab work order id/name data for our dropdown
-        # query2 = "SELECT workOrderId FROM WorkOrders"
-        # cur = mysql.connection.cursor()
-        # cur.execute(query2)
-        # workOrderId_data = cur.fetchall()
+        dropdown_query = "SELECT productId, reference FROM Products;"
+        cur = mysql.connection.cursor()
+        cur.execute(dropdown_query)
+        dropdown_data = cur.fetchall()
+
+        # check if there are any records in the workorderproducts intersection table for this work order
+        message = None
+        if not data:
+            message = "There are no products assigned to this work order yet."
 
         # render work order products page passing our query data to the template
-        return render_template("workorderproducts.j2", data=data)
+        # workOrderId is passed to the template so it is defined in the action for the form
+        return render_template("workorderproducts.j2", data=data, message=message, workOrderId=workOrderId, dropdown_data=dropdown_data)
 
 
 # route for delete functionality, deleting a product from a work order,
@@ -414,8 +484,9 @@ def delete_product_from_work_order(workOrderProductId):
     cur.execute(query, (workOrderProductId,))
     mysql.connection.commit()
 
-    # redirect back to work orders page
-    return redirect("/workorders")
+    # redirect to work order product page
+    current_url = request.referrer or url_for('index')
+    return redirect(current_url)
 
 
 ''' ############################################################################################################################
@@ -432,43 +503,55 @@ def workOrderMechanics(workOrderId):
         # fire off if user presses the Add Person button
         if request.form.get("Add_Mechanic"):
             # grab user form inputs
-            mechanicId = request.form["mechanicId"]
+            mechanicId = request.form["email"]
             query = "INSERT INTO WorkOrderMechanics (workOrderId, mechanicId) VALUES (%s, %s);"
             cur = mysql.connection.cursor()
             cur.execute(query, (workOrderId, mechanicId))
             mysql.connection.commit()
 
             # redirect back to work order mechanic page
-            return redirect("/mechanicdetails/<int:workOrderId>")
+            current_url = request.referrer or url_for('index')
+            return redirect(current_url)
 
     # Grab workOrderMechanics data of the Work Order so we send it to our template to display
     if request.method == "GET":
         # mySQL query to grab all the work order mechanics in the work Order
-        query = ("SELECT Mechanics.firstName, Mechanics.lastName FROM WorkOrderMechanics\
+        query = ("SELECT WorkOrderMechanics.workOrderMechanicId, Mechanics.firstName, Mechanics.lastName FROM WorkOrderMechanics\
                  JOIN Mechanics ON WorkOrderMechanics.mechanicId = Mechanics.mechanicId\
                  WHERE WorkOrderMechanics.workOrderId = '%s';")
         cur = mysql.connection.cursor()
         cur.execute(query, (workOrderId,))
         data = cur.fetchall()
-        return render_template("workordermechanics.j2", data=data)
 
-@app.route("/mechanicdetails/<int:workOrderId>/delete_workordermechanics/<int:mechanicId>")
-def delete_workorderMechanics(workOrderId, mechanicId):
-    # mySQL query to delete the person with our passed id
-    query = "DELETE FROM WorkOrderMechanics WHERE workOrderId = '%s' AND mechanicId = '%s';"
+        dropdown_query = "SELECT mechanicId, email FROM Mechanics;"
+        cur = mysql.connection.cursor()
+        cur.execute(dropdown_query)
+        dropdown_data = cur.fetchall()
+
+        # check if there are any records in the workordermechanics intersection table for this work order
+        message = None
+        if not data:
+            message = "There are no mechanics assigned to this work order yet."
+
+        # render work order products page passing our query data to the template
+        # workOrderId is passed to the template so it is defined in the action for the form
+        return render_template("workordermechanics.j2", data=data, message=message, workOrderId=workOrderId, dropdown_data=dropdown_data)
+
+
+@app.route("/mechanicdetails/delete_mechanics/<int:workOrderMechanicId>") 
+def delete_workorderMechanics(workOrderMechanicId ):
+    # mySQL query to delete the mechanic with our passed id
+    query = "DELETE FROM WorkOrderMechanics WHERE workOrderMechanicId = '%s';"
     cur = mysql.connection.cursor()
-    cur.execute(query, (workOrderId, mechanicId))
+    cur.execute(query, (workOrderMechanicId,))
     mysql.connection.commit()
 
-    # redirect back to work order mechanics
-    return redirect("/mechanicdetails/<int:workOrderId>")
-
-
-
+    # redirect to work order mechanics page
+    current_url = request.referrer or url_for('index')
+    return redirect(current_url)
 
 
 # Listener
 # change the port number if deploying on the flip servers
 if __name__ == "__main__":
     app.run(port=11238, debug=True)
-

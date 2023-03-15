@@ -2,7 +2,7 @@
 
 <head>
 	<title>Work Order Product Details</title>
-    <link href="style.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"/>
 </head>
 
 <body>
@@ -77,12 +77,13 @@
 
             <!-- Create 'Add Product to Work Order' and 'Cancel' buttons -->
             <input type="submit" value="Add Product to Work Order" name="Add_Product" class="btn btn-primary" style="margin:.5rem;">
-            <input class="btn" type="button" value="Cancel" onClick="browseWorkOrders()"> 
+            <a href='/workorders'><input class="btn" type="button" value="cancel"></a>
         </form>
 
 	</div>	<!-- browse -->
 	<footer>
-	<p> Project Step 4 Draft Version: Implement CRUD for One Entity</p>
+	<p> Portfolio Project: database-driven website that records Products used on Work Orders performed on Machines by Mechanics in a specific Location.</p>
+		<p>Introduction to Databases (CS340)</p>
 		<p>[Juan Pablo Duque and Marco Scandroglio]</p>
 	<!--Code Citation:-->
 	<!--Date: 02/24/2023-->
