@@ -8,7 +8,7 @@
 <body>
     <div>
         <table border="1" cellpadding="5"> 
-            <caption> Editing Location: </caption>
+            <caption><strong>Editing Location:</strong></caption>
             <!-- Access data tuple passed from app.py -->
             {% if data %}
                 <thead>
@@ -36,11 +36,13 @@
                     {% endfor %} 
             {% endif %} 
         </table>
+        
+        <p>&nbsp;</p>
 
         <div id="edit">
             <!-- form to edit data in Machines-->
             <form id="editLocation" action="/edit_locations/{{data[0].locationId}}" method="post">
-                <legend><strong>Edit Machine</strong></legend>
+                <legend><strong>Edit Location</strong></legend>
                 <fieldset>
                     <!-- We can preset form inputs to match attributes currently stored for 'id' of person to be updated via value= and accessing our passed data tuple -->
                     <!-- Create hidden form input to store the passed 'id' of the person we are editing so we can access it easily in our 'POST' method in our app.py -->
