@@ -270,6 +270,39 @@ def delete_product(productId):
     # redirect back to people page
     return redirect("/products")
 
+# route for edit functionality, updating the attributes of a product in Products
+# similar to our delete route, we want to the pass the 'id' value of that product on button click (see HTML) via the route
+@app.route("/edit_products/<int:productId>", methods=["POST", "GET"])
+def edit_locations(productId):
+    if request.method == "GET":
+        # mySQL query to grab the info of the product with our passed id
+        query = "SELECT * FROM Products WHERE productId = %s" % (productId)
+        cur = mysql.connection.cursor()
+        cur.execute(query)
+        data = cur.fetchall()
+
+        # render edit_products page passing our query data edit_products template
+        return render_template("edit_products.j2", data=data)
+
+    # meat and potatoes of our update functionality
+    if request.method == "POST":
+        # fire off if user clicks the 'Edit Product' button
+        if request.form.get("Edit_Product"):
+            # grab user form inputs
+            productName = request.form["productName"]
+            reference = request.form["reference"]
+            brand = request.form["brand"]
+            description = request.form["description"]
+
+            # This table does not accept null inputs
+            query = "UPDATE Products SET Products.productName = %s, Products.reference = %s, Products.brand = %s, Products.description = %s  WHERE Products.productId = %s"
+            cur = mysql.connection.cursor()
+            cur.execute(query, (productName, reference, brand, description, productId))
+            mysql.connection.commit()
+            
+            # redirect back to locations page after we execute the update query
+            return redirect("/products")
+
 
 ''' ############################################################################################################################
 MECHANICS ROUTES
@@ -414,8 +447,18 @@ def workOrders():
         cur.execute(query2)
         workOrderId_data = cur.fetchall()
 
+        machine_dropdown_query = "SELECT machineId, serial FROM Machines;"
+        cur = mysql.connection.cursor()
+        cur.execute(machine_dropdown_query)
+        machine_dropdown_data = cur.fetchall()
+
+        location_dropdown_query = "SELECT locationId, locationName FROM Locations;"
+        cur = mysql.connection.cursor()
+        cur.execute(location_dropdown_query)
+        location_dropdown_data = cur.fetchall()
+
         # render edit_people page passing our query data and homeworld data to the edit_people template
-        return render_template("workorders.j2", data=data, workOrderIds=workOrderId_data)
+        return render_template("workorders.j2", data=data, workOrderIds=workOrderId_data, machine_dropdown_data=machine_dropdown_data, location_dropdown_data=location_dropdown_data)
 
 
 # route for delete functionality, deleting a work order from WorkOrders,
