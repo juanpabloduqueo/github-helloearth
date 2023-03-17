@@ -331,7 +331,7 @@ def delete_mechanics(mechanicId):
 def edit_mechanics(mechanicId):
     if request.method == "GET":
         # mySQL query to grab the info of the person with our passed id
-        query = "SELECT * FROM Locations WHERE mechanicId = %s" % (mechanicId)
+        query = "SELECT * FROM Mechanics WHERE mechanicId = %s" % (mechanicId)
         cur = mysql.connection.cursor()
         cur.execute(query)
         data = cur.fetchall()
@@ -352,12 +352,12 @@ def edit_mechanics(mechanicId):
             # This table does not accept null inputs
             query = "UPDATE Mechanics SET Mechanics.firstName = %s, Mechanics.lastName = %s, Mechanics.phone = %s, Mechanics.email = %s WHERE Mechanics.mechanicId = %s"
             cur = mysql.connection.cursor()
-            cur.execute(query, (firstName, lastName, phone, email))
+            cur.execute(query, (firstName, lastName, phone, email, mechanicId))
             mysql.connection.commit()
             
             # redirect back to locations page after we execute the update query
             return redirect("/mechanics")
-
+        
 ''' ############################################################################################################################
 WORK ORDER ROUTES
 ############################################################################################################################ '''
