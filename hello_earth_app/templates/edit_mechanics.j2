@@ -1,14 +1,15 @@
 <html>
 
 <head>
-	<title>Edit Locations</title>
+	<title>Edit Mechanics</title>
 	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"/>
 </head>
+
 
 <body>
     <div>
         <table border="1" cellpadding="5"> 
-            <caption> Editing Mechanic: </caption>
+            <caption><strong>Editing Mechanic:</strong></caption>
             <!-- Access data tuple passed from app.py -->
             {% if data %}
                 <thead>
@@ -40,7 +41,7 @@
         <div id="edit">
             <!-- form to edit data in Machines-->
             <form id="editMechanic" action="/edit_mechanics/{{data[0].mechanicId}}" method="post">
-                <legend><strong>Edit Machine</strong></legend>
+                <legend><strong>Edit Mechanic</strong></legend>
                 <fieldset>
                     <!-- We can preset form inputs to match attributes currently stored for 'id' of person to be updated via value= and accessing our passed data tuple -->
                     <!-- Create hidden form input to store the passed 'id' of the person we are editing so we can access it easily in our 'POST' method in our app.py -->
@@ -59,8 +60,9 @@
                     <input type="text" value ="{{data[0].email}}" class="form-control" id="email" name="email" required>
         
                 </fieldset>
-                <input type="submit" value="Edit Location" name="Edit_Location" class="btn btn-primary" style="margin:.5rem;">
-                <a href='/mechanics'><input class="btn" type="button" value="cancel"></a>
+                <input type="submit" value="Edit Mechanic" name="Edit_Mechanic" class="btn btn-primary" style="margin:.5rem;">
+                <a href='/mechanics' class='btn' style="margin:.5rem;">Cancel</a>
+     
             </form>
 	<footer>
 	<p> Portfolio Project: database-driven website that records Products used on Work Orders performed on Machines by Mechanics in a specific Location.</p>
