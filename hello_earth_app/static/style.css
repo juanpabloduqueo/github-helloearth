@@ -1,72 +1,72 @@
 body {
-    min-height: 400px;
-    margin-bottom: 100px;
-    clear: both;
-  }
-  
-  td, th {
-    border: 1px solid #ddd;
-    padding: 8px;
-  
-  }
-  
-  tr:nth-child(even){background-color: #f2f2f2;}
-  
-  tr:hover {background-color: #ddd;}
-  
-  th {
-    padding-top: 12px;
-    padding-bottom: 12px;
-    text-align: center;
-    background-color: rgb(105, 85, 25);
-    color: blanchedalmond;
-  }
-  
-  header {
-    font-size: medium;
-    background-color:  #E8E8E8;
-    text-align: center;
-    padding: 1px;
-  }
-  
-  a, .btn {
-    padding: 0px 20px 5px 20px;
-    background-color: lightslategrey;
-    text-decoration: none;
-    color: blanchedalmond;
-    line-height: 1;
-    vertical-align: middle;
-    border-right: 2px solid blanchedalmond;
-    font-size: 1.1em;
-    font-weight: bold;
-    border-radius: 3px;
-    text-align: center;
-    display: inline-block;
-    margin-top: 0.8%;
-  }
-  
-  .btn {
-    border: none
-  }
-  
-  a:hover {
-    color: black;
-    background-color: rgb(195, 143, 11);
-  }
-  
-  .btn:hover {
-    color: black;
-    background-color: rgb(195, 143, 11);
-  }
-  
-  footer {
-    position:fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    color: black;
-    text-align: center;
-    font-size: small;
-    font-weight: bold;
-    background-color: #E8E8E8;
-  }
+  min-height: 400px;
+  margin-bottom: 100px;
+  clear: both;
+}
+
+td, th {
+  border: 1px solid #ddd;
+  padding: 8px;
+
+}
+
+tr:nth-child(even){background-color: #f2f2f2;}
+
+tr:hover {background-color: #ddd;}
+
+th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: center;
+  background-color: rgb(105, 85, 25);
+  color: blanchedalmond;
+}
+
+header {
+  font-size: medium;
+  background-color:  #E8E8E8;
+  text-align: center;
+  padding: 1px;
+}
+
+a, .btn, .btn.btn-primary {
+  padding: 0px 20px 5px 20px;
+  background-color: lightslategrey;
+  text-decoration: none;
+  color: blanchedalmond;
+  line-height: 1;
+  vertical-align: baseline;
+  border-right: 2px solid blanchedalmond;
+  font-size: 1.1em;
+  font-weight: bold;
+  border-radius: 3px;
+  text-align: center;
+  display: inline-block;
+  margin-top: 0.8%;
+}
+
+.btn {
+  border: none
+}
+
+a:hover {
+  color: black;
+  background-color: rgb(195, 143, 11);
+}
+
+.btn:hover {
+  color: black;
+  background-color: rgb(195, 143, 11);
+}
+
+footer {
+  position:fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  color: black;
+  text-align: center;
+  font-size: small;
+  font-weight: bold;
+  background-color: #E8E8E8;
+}
