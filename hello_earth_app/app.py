@@ -273,7 +273,7 @@ def delete_product(productId):
 # route for edit functionality, updating the attributes of a product in Products
 # similar to our delete route, we want to the pass the 'id' value of that product on button click (see HTML) via the route
 @app.route("/edit_products/<int:productId>", methods=["POST", "GET"])
-def edit_locations(productId):
+def edit_products(productId):
     if request.method == "GET":
         # mySQL query to grab the info of the product with our passed id
         query = "SELECT * FROM Products WHERE productId = %s" % (productId)
