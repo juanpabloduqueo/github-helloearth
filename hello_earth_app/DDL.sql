@@ -78,7 +78,8 @@ CREATE OR REPLACE TABLE WorkOrderMechanics (
     mechanicId int,
     PRIMARY KEY (workOrderMechanicId),
     FOREIGN KEY (mechanicId) REFERENCES Mechanics(mechanicId) ON DELETE SET NULL,
-    FOREIGN KEY (workOrderId) REFERENCES WorkOrders(workOrderId) ON DELETE CASCADE
+    FOREIGN KEY (workOrderId) REFERENCES WorkOrders(workOrderId) ON DELETE CASCADE,
+    CONSTRAINT unique_name UNIQUE (workOrderId, mechanicId)
 );
 
 -- Intersection table between Products and WorkOrders (WorkOrderProducts)
