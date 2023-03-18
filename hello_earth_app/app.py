@@ -571,9 +571,13 @@ def workOrderMechanics(workOrderId):
         cur.execute(query, (workOrderId,))
         data = cur.fetchall()
 
-        dropdown_query = "SELECT mechanicId, email FROM Mechanics;"
+        dropdown_query = ("SELECT Mechanics.* "
+        "FROM Mechanics "
+        "LEFT JOIN WorkOrderMechanics ON Mechanics.mechanicId = WorkOrderMechanics.mechanicId "
+        "AND WorkOrderMechanics.workOrderId = %s "
+        "WHERE WorkOrderMechanics.workOrderId IS NULL;")
         cur = mysql.connection.cursor()
-        cur.execute(dropdown_query)
+        cur.execute(dropdown_query, (workOrderId,))
         dropdown_data = cur.fetchall()
 
         # check if there are any records in the workordermechanics intersection table for this work order
