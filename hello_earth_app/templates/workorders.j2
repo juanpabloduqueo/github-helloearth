@@ -120,25 +120,18 @@
                 <!-- placeholder shows ghost text, required forces an input -->
 				<label for="make">machineSerial:</label>
 				<select class="form-control" id="serial" name="serial" pattern="[0-4]{1}" placeholder="" required>
-				<!-- these are hard coded, but you can add code to make this dynamic -->
-					<option value="0">&nbsp;</option>
-                    <option value="1">1042-48528</option>
-					<option value="2">50027</option>
-					<option value="3">D8T49943</option>
-					<option value="4">3WN02456</option>
-                    <option value="5">AKH01920</option>
-                    <option value="6">KGF02672</option>
-					<option value="{{data[0].machineId}}" selected></option>
+				<!-- dynamic drop-down -->
+					{% for x in machine_dropdown_data %}
+                    <option value="{{x.machineId}}">{{x.serial}}</option>
+                    {% endfor %}
 				</select>
 
 				<label for="make">locationName:</label>
 				<select class="form-control" id="locationId" name="locationId" pattern="[0-4]{1}" placeholder="">
-				<!-- these are hard coded, but you can add code to make this dynamic -->
-					<option value="0">&nbsp;</option>
-                    <option value="1">HelloEarth Depot 1</option>
-                    <option value="2">HelloEarth Depot 2</option>
-                    <option value="4">Client Site 1</option>
-					<option value="{{data[0].locationId}}" selected></option>
+				<!-- dynamic drop-down -->
+					{% for x in location_dropdown_data %}
+                    <option value="{{x.locationId}}">{{x.locationName}}</option>
+                    {% endfor %}
 				</select>
 
 				<label> date </label> 
