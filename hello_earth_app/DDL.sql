@@ -7,7 +7,7 @@ SET FOREIGN_KEY_CHECKS=0;
 SET AUTOCOMMIT = 0;
 
 -- Table Machines
-
+--- No two machines can have the same make, model, and serial.
 CREATE OR REPLACE TABLE Machines (
     machineId int NOT NULL UNIQUE AUTO_INCREMENT,
     year year NOT NULL,
@@ -15,34 +15,37 @@ CREATE OR REPLACE TABLE Machines (
     model varchar(45) NOT NULL,
     serial varchar(255) NOT NULL,
     class varchar(45) NOT NULL,
-    PRIMARY KEY (machineId)
+    PRIMARY KEY (machineId),
+    CONSTRAINT exact_machine UNIQUE (make, model, serial)
 );
 
 -- Table Mechanics
-
+--- More than one mechanic can have the same phone number (ex. family members), but they cannot share the same email.
+--- No two mechanics can have the same full name, number and email.
 CREATE OR REPLACE TABLE Mechanics (
     mechanicId int NOT NULL UNIQUE AUTO_INCREMENT,
     firstName varchar(255) NOT NULL,
     lastName varchar(255) NOT NULL,
     phone varchar(25) NOT NULL,
-    email varchar(255) NOT NULL,
+    email varchar(255) NOT NULL UNIQUE,
     PRIMARY KEY (mechanicId),
-    CONSTRAINT full_name UNIQUE (firstName, lastName)
+    CONSTRAINT exact_mechanic UNIQUE (firstName, lastName, phone, email)
 );
 
 -- Table Products
-
+--- No two products can have the same name, brand, and reference.
 CREATE OR REPLACE TABLE Products (
     productId int NOT NULL UNIQUE AUTO_INCREMENT,
     productName varchar(45) NOT NULL,
     reference varchar(45) NOT NULL,
     brand varchar(45) NOT NULL,
     description TEXT,
-    PRIMARY KEY (productId)
+    PRIMARY KEY (productId),
+    CONSTRAINT exact_product UNIQUE (productName, reference, brand)
 );
 
 -- Table Locations
-
+--- No two locations can be exactly the same
 CREATE OR REPLACE TABLE Locations (
     locationId int NOT NULL UNIQUE AUTO_INCREMENT,
     locationName varchar(45) NOT NULL,
@@ -50,7 +53,8 @@ CREATE OR REPLACE TABLE Locations (
     zipcode varchar(45) NOT NULL,
     state varchar(45) NOT NULL,
     isClientLocation TINYINT NOT NULL,
-    PRIMARY KEY (locationId)
+    PRIMARY KEY (locationId),
+    CONSTRAINT exact_location UNIQUE (locationName, address, zipcode, state, isClientLocation)
 );
 
 -- Table WorkOrders
