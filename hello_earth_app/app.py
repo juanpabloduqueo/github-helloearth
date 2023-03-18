@@ -598,6 +598,9 @@ def delete_workorderMechanics(workOrderMechanicId ):
     current_url = request.referrer or url_for('index')
     return redirect(current_url)
 
+@app.errorhandler(500)
+def internal_server_error(error):
+    return render_template('500.html'), 500
 
 # Listener
 # change the port number if deploying on the flip servers
