@@ -61,7 +61,7 @@
                     <input type="text" value ="{{data[0].state}}" class="form-control" id="state" name="state" required>
 
                     <label for="isClientLocation">Is a client location? (0 = No, 1 = yes):</label>
-				    <input type="number" class="form-control" id="isClientLocation" name="isClientLocation" min="0" max="1" step="1" required>           
+				    <input type="number" value ="{{data[0].isClientLocation}}" class="form-control" id="isClientLocation" name="isClientLocation" min="0" max="1" step="1" required>     
                 </fieldset>
                 <input type="submit" value="Edit Location" name="Edit_Location" class="btn btn-primary" style="margin:.5rem;">
                 <a href='/locations'class='btn' style="margin:.5rem;">Cancel</a>
