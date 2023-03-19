@@ -48,16 +48,16 @@
                     <input type="hidden" value="{{data[0].mechanicId}}" class="form-control" id="mechanicId" name="mechanicId" required>
                     
                     <label for="firstName">First Name:</label>
-                    <input type="text" value="{{data[0].firstName}}" class="form-control" id="firstName" name="firstName" required>      
+                    <input type="text" value="{{data[0].firstName}}" class="form-control" id="firstName" name="firstName" pattern="[A-Za-z0-9]{1,}" required>      
 
                     <label for="lastName">Last Name:</label>
-                    <input type="text" value="{{data[0].lastName}}" class="form-control" id="lastName" name="lastName" required>	
+                    <input type="text" value="{{data[0].lastName}}" class="form-control" id="lastName" name="lastName" pattern="[A-Za-z0-9]{1,}" required>	
 
                     <label for="phone">Phone:</label>
-                    <input type="text" value="{{data[0].phone}}" class="form-control" id="phone" name="phone" required>
+                    <input type="text" value="{{data[0].phone}}" class="form-control" id="phone" name="phone" pattern="[A-Za-z0-9]{1,}" required>
                         
                     <label for="email">Email:</label>
-                    <input type="text" value ="{{data[0].email}}" class="form-control" id="email" name="email" required>
+                    <input type="text" value ="{{data[0].email}}" class="form-control" id="email" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required>
         
                 </fieldset>
                 <input type="submit" value="Edit Mechanic" name="Edit_Mechanic" class="btn btn-primary" style="margin:.5rem;">
