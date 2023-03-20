@@ -72,7 +72,7 @@ def machines():
     # Grab Machines data so we send it to our template to display
     if request.method == "GET":
         # mySQL query to grab all the machines in Machines
-        query = "SELECT machineId, year, make, model, serial, class FROM Machines"
+        query = "SELECT machineId, year AS 'Year', make AS 'Make', model AS 'Model', serial as 'Serial', class AS 'Class' FROM Machines"
         cur = mysql.connection.cursor()
         cur.execute(query)
         data = cur.fetchall()
@@ -160,7 +160,7 @@ def locations():
     # Grab Locations data so we send it to our template to display [IS THIS NECESSARY TO LEAVE IT????]
     if request.method == "GET":
         # mySQL query to grab all the locations in Locations
-        query = "SELECT locationId, locationName, address, zipcode, state, isClientLocation FROM Locations;"
+        query = "SELECT locationId, locationName AS 'Location Name', address AS 'Address', zipcode AS 'ZIP Code', state AS 'State', isClientLocation AS 'Client Location? (1:Yes, 0:No)' FROM Locations;"
         cur = mysql.connection.cursor()
         cur.execute(query)
         data = cur.fetchall()
@@ -248,7 +248,7 @@ def products():
     # ]
     if request.method == "GET":
         # mySQL query to grab all the machines in Machines
-        query = "SELECT productId, productName AS 'Product Name', reference AS Reference, brand AS Brand, description AS Description FROM Products;"
+        query = "SELECT productId, productName AS 'Product Name', reference AS 'Reference', brand AS 'Brand', description AS 'Description' FROM Products;"
         cur = mysql.connection.cursor()
         cur.execute(query)
         data = cur.fetchall()
@@ -336,7 +336,7 @@ def mechanics():
     # ]
     if request.method == "GET":
         # mySQL query to grab all the machines in Machines
-        query = "SELECT mechanicId, firstName, lastName, phone, email FROM Mechanics;"
+        query = "SELECT mechanicId, firstName AS 'First Name', lastName AS 'Last Name', phone AS 'Phone', email AS 'Email' FROM Mechanics;"
         cur = mysql.connection.cursor()
         cur.execute(query)
         data = cur.fetchall()
@@ -499,7 +499,7 @@ def product_details(workOrderId):
 
     # Grab workOrderProducts data so we send it to our template to display
     if request.method == "GET":
-        query = ("SELECT WorkOrderProducts.workOrderProductId, Products.productId, Products.productName, Products.reference "
+        query = ("SELECT WorkOrderProducts.workOrderProductId, Products.productId, Products.productName AS 'Product Name', Products.reference AS 'Reference' "
         "FROM WorkOrderProducts "
         "JOIN Products ON WorkOrderProducts.productId = Products.productId "
         "WHERE WorkOrderProducts.workOrderId = %s;")
@@ -512,6 +512,11 @@ def product_details(workOrderId):
         cur.execute(dropdown_query)
         dropdown_data = cur.fetchall()
 
+        work_query = ("SELECT WorkOrders.workOrderId, Machines.model, Machines.serial, Locations.locationName, WorkOrders.date, WorkOrders.description FROM WorkOrders LEFT JOIN Machines ON WorkOrders.machineId = Machines.machineId LEFT JOIN Locations ON WorkOrders.locationId = Locations.locationId WHERE WorkOrders.workOrderId = %s;")
+        cur = mysql.connection.cursor()
+        cur.execute(work_query, (workOrderId,))
+        work_order_data = cur.fetchall()
+
         # check if there are any records in the workorderproducts intersection table for this work order
         message = None
         if not data:
@@ -519,7 +524,7 @@ def product_details(workOrderId):
 
         # render work order products page passing our query data to the template
         # workOrderId is passed to the template so it is defined in the action for the form
-        return render_template("workorderproducts.j2", data=data, message=message, workOrderId=workOrderId, dropdown_data=dropdown_data)
+        return render_template("workorderproducts.j2", data=data, message=message, workOrderId=workOrderId, dropdown_data=dropdown_data, work_order_data=work_order_data)
 
 
 # route for delete functionality, deleting a product from a work order,
@@ -564,7 +569,7 @@ def workOrderMechanics(workOrderId):
     # Grab workOrderMechanics data of the Work Order so we send it to our template to display
     if request.method == "GET":
         # mySQL query to grab all the work order mechanics in the work Order
-        query = ("SELECT WorkOrderMechanics.workOrderMechanicId, Mechanics.firstName, Mechanics.lastName FROM WorkOrderMechanics\
+        query = ("SELECT WorkOrderMechanics.workOrderMechanicId, Mechanics.firstName AS 'First Name', Mechanics.lastName AS 'Last Name' FROM WorkOrderMechanics\
                  JOIN Mechanics ON WorkOrderMechanics.mechanicId = Mechanics.mechanicId\
                  WHERE WorkOrderMechanics.workOrderId = '%s';")
         cur = mysql.connection.cursor()
@@ -580,6 +585,11 @@ def workOrderMechanics(workOrderId):
         cur.execute(dropdown_query, (workOrderId,))
         dropdown_data = cur.fetchall()
 
+        work_query = ("SELECT WorkOrders.workOrderId, Machines.model, Machines.serial, Locations.locationName, WorkOrders.date, WorkOrders.description FROM WorkOrders LEFT JOIN Machines ON WorkOrders.machineId = Machines.machineId LEFT JOIN Locations ON WorkOrders.locationId = Locations.locationId WHERE WorkOrders.workOrderId = %s;")
+        cur = mysql.connection.cursor()
+        cur.execute(work_query, (workOrderId,))
+        work_order_data = cur.fetchall()
+
         # check if there are any records in the workordermechanics intersection table for this work order
         message = None
         if not data:
@@ -587,7 +597,7 @@ def workOrderMechanics(workOrderId):
 
         # render work order products page passing our query data to the template
         # workOrderId is passed to the template so it is defined in the action for the form
-        return render_template("workordermechanics.j2", data=data, message=message, workOrderId=workOrderId, dropdown_data=dropdown_data)
+        return render_template("workordermechanics.j2", data=data, message=message, workOrderId=workOrderId, dropdown_data=dropdown_data, work_order_data=work_order_data)
 
 
 @app.route("/mechanicdetails/delete_mechanics/<int:workOrderMechanicId>") 
