@@ -7,14 +7,50 @@
 
 <body>
     <h1>Work Order Mechanics</h1>
+
+	<p>&nbsp;</p>
+
+    <div>
+        <table border="1" cellpadding="5"> 
+        <caption> Editing Work Order: </caption>
+        <p>&nbsp;</p>
+        <!-- Access data tuple passed from app.py -->
+        {% if work_order_data %}
+            <thead>
+                <tr>
+                    <!-- Iterate through each key in the first entry to get the column /name -->
+                    {% for key in work_order_data[0].keys() %}
+
+                    <!-- Create a <th> tag with the key inside of it, this will be our header row -->
+                    <th scope="col" data-field="{{ key }}" data-filter-control="input">{{ key }}</th>
+                    
+                    <!-- End of this for loop -->
+                    {% endfor %} 
+                </tr>
+
+            <tbody>
+                <!-- Now, iterate through every item in data -->
+                {% for item in work_order_data %}
+                <tr>
+                    <!-- Then iterate through every key in the current item dictionary -->
+                    {% for key in item.keys() %}
+                    
+                    <!-- Create a <td> element with the value of that key in it -->
+                    <td>{{item[key]}}</td> {% endfor %} 
+                </tr> 
+                {% endfor %} 
+        {% endif %} 
+    </table>
     
+	<p>&nbsp;</p>
+
     <div>
         {# if the table is empty display a message #}
         {% if message %}
             <p>{{ message }}</p>
         {% elif data %}
             <table border="1" cellpadding="5"> 
-                <caption> Work Order Product Details: </caption>
+                <caption> Work Order Mechanic Details: </caption>
                 <!-- Access data tuple passed from app.py -->
                     
                 <thead>
@@ -77,7 +113,7 @@
 
             <!-- Create 'Add Mechanic to Work Order' and 'Cancel' buttons -->
 			<input type="submit" value="Add Mechanic to Work Order" name="Add_Mechanic" class="btn btn-primary" style="margin:.5rem;">
-			<a href='/workorders'><input class="btn" type="button" value="cancel"></a>
+			<a href='/workorders'><input class="btn" type="button" value="cancel" style="margin:.5rem;"></a>
         </form>
         
 	</div>	<!-- browse -->
