@@ -1,0 +1,381 @@
+<html>
+
+<head>
+	<title>Work Order Details</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"/>
+    <script language="JavaScript">
+	function showform(dowhat) {
+		/*
+		 * two DIVS: browse and edit
+		 * this function sets one visible the others not
+		 */
+		if(dowhat == 'edit') {
+			document.getElementById('browse').style.display = 'block';
+			document.getElementById('edit').style.display = 'block';
+		} else { //by default display browse
+			document.getElementById('browse').style.display = 'block';
+			document.getElementById('edit').style.display = 'none';
+		}
+	}
+
+	function editWorkOrderDetails() {
+		showform('edit');
+	}
+
+	function browseWorkOrderDetails() {
+		showform('browse');
+	}
+
+	function showAll() {
+		showform('all');
+	}
+	</script>
+</head>
+
+<body onload="browseWorkOrderDetails()">
+
+    <h1>Work Order {{ workOrderId }} Details</h1>
+
+    <a href='/workorders'><input class="btn" type="button" value="<- back to work orders"></a>
+
+    <p>&nbsp;</p>
+
+    <h2>Work Order {{ workOrderId }}:</h2>
+
+	<div id="browse">
+
+		<p><a href="#" onClick="editWorkOrderDetails()">Update Work Order</a> </p>
+
+    </div>
+    
+    <div>
+
+		<table border="1" cellpadding="5">
+
+            <!-- Access data tuple passed from app.py --> 
+            {# work order data #}
+            {% if workorder_data %}
+
+			    <thead>
+
+				    <tr>
+
+					    <!-- Iterate through each key in the first entry to get the column name -->
+                        {% for key in workorder_data[0].keys() %}
+
+                            {% if key != "workOrderId" %}
+                            
+                            <!-- Create a <th> tag with the key inside of it, this will be our header row -->
+                            <th scope="col" data-field="{{ key }}" data-filter-control="input">{{ key }}</th>
+
+                            {% endif %}
+
+                        <!-- End of this for loop -->
+                        {% endfor %} 
+
+                        <th>Delete</th>
+
+                    </tr>
+
+				<tbody>
+
+					<!-- Now, iterate through every item in data -->
+                    {% for item in workorder_data %}
+					    <tr>
+
+						    <!-- Then iterate through every key in the current item dictionary -->
+                            {% for key in item.keys() %}
+
+                                {% if key != "workOrderId" %}
+
+                                <!-- Create a <td> element with the value of that key in it -->
+                                <td> {{item[key]}} </td> 
+
+                                {% endif %}
+
+                            {% endfor %}
+
+                            <!-- Create our edit/delete buttons -->
+							<td><a href="delete_workorder/{{item.workOrderId}}" class="btn btn-default">Delete</a></td>
+
+					    </tr> 
+
+                    {% endfor %} 
+
+                </tbody>
+
+            {% endif %} 
+
+        </table>
+
+    </div>   
+
+	<p>&nbsp;</p>
+
+    <div id="edit">
+
+        <!-- form to INSERT new data into workOrders-->
+		<form id="updateWorkOrder" action="/workorderdetails/{{workOrderId}}" method="post">
+
+			<legend><strong>Update Work Order</strong></legend>
+			<fieldset>
+
+                <!-- machineSerial drop-down -->
+				<label for="make">Machine Serial:</label>
+
+				<select class="form-control" id="serial" name="serial" pattern="[0-4]{1}" placeholder="" required>
+
+				    <!-- dynamic drop-down -->
+					{% for x in machine_dropdown_data %}
+
+                        {% if x.serial == workorder_data[0]['Machine Serial'] %}
+
+                            <option value="{{x.machineId}}" selected>{{x.serial}}</option>
+
+                        {% else %}
+
+                            <option value="{{x.machineId}}">{{x.serial}}</option>
+
+                        {% endif %}
+
+                    {% endfor %}
+
+				</select>
+
+                <!-- locationName drop-down -->
+				<label for="make">Location Name:</label>
+
+				<select class="form-control" id="locationId" name="locationId" pattern="[0-4]{1}" placeholder="">
+
+				    <!-- dynamic drop-down -->
+					{% for x in location_dropdown_data %}
+
+                        {% if x.locationName == workorder_data[0]['Location Name'] %}
+
+                            <option value="{{x.locationId}}" selected>{{x.locationName}}</option>
+
+                        {% else %}
+
+                            <option value="{{x.locationId}}">{{x.locationName}}</option>
+
+                        {% endif %}
+
+                    {% endfor %}
+
+				</select>
+
+                <!-- Date field -->
+                <label for="date">Date:</label>
+                <input class="form-control" type="date" id="date" name="date" value="{{workorder_data[0]['Date']}}" required>
+
+                <label> Description </label> 
+				<input class="form-control" type="text" id="description" name="description" value="{{workorder_data[0]['Description']}}">
+ 
+            </fieldset>
+
+            <!-- Create 'Add Work Order' and 'Cancel' buttons -->
+			<input type="submit" value="Update Work Order" name="Update_Work_Order" class="btn btn-primary">
+			<input class="btn" type="button" value="Cancel" onClick="browseWorkOrderDetails()">  
+
+        </form>
+
+    </div>
+
+    <p>&nbsp;</p>
+
+    <h2>Products Associated with Work Order {{ workOrderId }}:</h2>
+
+<!-- Products associated with this work order -->
+    <div>
+        {# if the table is empty display a message #}
+        {% if products_message %}
+            <p>{{ products_message }}</p>
+        {% elif products_data %}
+            <table border="1" cellpadding="5">
+                <caption> Work Order Product Details: </caption>
+                <!-- Access data tuple passed from app.py -->
+
+                <thead>
+
+                    <tr>
+
+                        <!-- Iterate through each key in the first entry to get the column name -->
+                        {% for key in products_data[0].keys() %}
+
+                            {% if key != "workOrderProductId" and key != "productId" %}
+
+                            <!-- Create a <th> tag with the key inside of it, this will be our header row -->
+                            <th scope="col" data-field="{{ key }}" data-filter-control="input">{{ key }}</th>
+                            
+                            {% endif %}
+
+                        {% endfor %}
+
+                        <th>Delete</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+                    <!-- Now, iterate through every item in data -->
+                    {% for item in products_data %}
+                        <tr>
+                            <!-- Then iterate through every key in the current item dictionary -->
+                            {% for key in item.keys() %}
+
+                                {% if key != "workOrderProductId" and key != "productId" %}
+
+                                <!-- Create a <td> element with the value of that key in it -->
+                                <td>{{item[key]}}</td>
+
+                                {% endif %}
+
+                            {% endfor %}
+
+                            <!-- Create our edit/delete buttons -->
+                            <td><a href="/productdetails/delete_product/{{item.workOrderProductId}}" class="btn btn-default">Delete</a></td>
+
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    </div>
+
+
+	<p>&nbsp;</p>
+
+
+    <div>
+
+        <!-- form to INSERT new data into workOrders-->
+        <form id="insertProduct" action="/workorderdetails/{{workOrderId}}" method="post">
+            <legend><strong>Add Product to Work Order</strong></legend>
+            <fieldset>
+                <!-- placeholder shows ghost text, required forces an input -->
+                <label for="make">reference:</label>
+                <select class="form-control" id="reference" name="reference" placeholder="" required>
+                <!-- dynamic drop down -->
+                    {% for x in products_drp_dwn %}
+                    <option value="{{x.productId}}">{{x.reference}}</option>
+                    {% endfor %}
+                </select>
+
+            </fieldset>
+
+            <!-- Create 'Add Product to Work Order' and 'Cancel' buttons -->
+            <input type="submit" value="Add Product to Work Order" name="Add_Product" class="btn btn-primary" style="margin:.5rem;">
+            
+        </form>
+
+	</div>	<!-- browse -->
+
+    <p>&nbsp;</p>
+
+    <h2>Mechanics Associated with Work Order {{ workOrderId }}:</h2>
+
+ <!-- Mechanics associated with this work order -->   
+    <div>
+        {# if the table is empty display a message #}
+        {% if mechanics_message %}
+            <p>{{ mechanics_message }}</p>
+        {% elif mechanics_data %}
+            <table border="1" cellpadding="5"> 
+                <caption> Work Order Product Details: </caption>
+                <!-- Access data tuple passed from app.py -->
+                    
+                <thead>
+                    <tr>
+                        <!-- Iterate through each key in the first entry to get the column name -->
+                        {% for key in mechanics_data[0].keys() %}
+
+                            
+                            {% if key != "workOrderMechanicId" %}
+
+                            <!-- Create a <th> tag with the key inside of it, this will be our header row -->
+                            <th scope="col" data-field="{{ key }}" data-filter-control="input">{{ key }}</th>
+                            
+                            {% endif %}
+
+                        <!-- End of this for loop -->
+                        {% endfor %} 
+
+                        <th>Delete</th>
+
+                    </tr>
+
+                <tbody>
+                    <!-- Now, iterate through every item in data -->
+                    {% for item in mechanics_data %}
+                        <tr>
+                            <!-- Then iterate through every key in the current item dictionary -->
+                            {% for key in item.keys() %}
+
+                                {% if key != "workOrderMechanicId" %}
+
+                                <!-- Create a <td> element with the value of that key in it -->
+                                <td>{{item[key]}}</td> 
+
+                                {% endif %}
+
+                            {% endfor %} 
+
+                        <!-- Create our edit/delete buttons -->
+                            <td><a href="/mechanicdetails/delete_mechanics/{{item.workOrderMechanicId}}" class="btn btn-default">Delete</a></td>
+
+                        </tr> 
+                    {% endfor %} 
+                </tbody>
+            </table>
+        {% endif %} 
+    </div>
+
+
+	<p>&nbsp;</p>
+
+
+    <div> 
+
+		<!-- form to INSERT new data into workOrders-->
+		<form id="insertMechanic" action="/workorderdetails/{{workOrderId}}" method="post">
+			<legend><strong>Add Mechanic to Work Order</strong></legend>
+			<fieldset>
+                <!-- placeholder shows ghost text, required forces an input -->
+				<label for="email">Email:</label>
+				<select class="form-control" id="email" name="email" placeholder="" required>
+				<!-- dynamic drop down -->
+                    {% for x in mechanics_drp_dwn %}
+                    <option value="{{x.mechanicId}}">{{x.email}}</option>
+                    {% endfor %}
+                </select>               
+
+            </fieldset>
+
+            <!-- Create 'Add Mechanic to Work Order' and 'Cancel' buttons -->
+			<input type="submit" value="Add Mechanic to Work Order" name="Add_Mechanic" class="btn btn-primary" style="margin:.5rem;">
+			
+        </form>
+        
+	</div>	<!-- browse -->
+    
+
+	<p>&nbsp;</p>
+
+
+    <footer>
+
+	<p> Portfolio Project: database-driven website that records Products used on Work Orders performed on Machines by Mechanics in a specific Location.</p>
+		<p>Introduction to Databases (CS340)</p>
+		<p>[Juan Pablo Duque and Marco Scandroglio]</p>
+
+	<!--Code Citation:-->
+	<!--Date: 03/20/2023-->
+	<!--Code adapted from Exploration 7 Course Content (Flask Starter App):--> 
+	<!--Source URL: https://github.com/osu-cs340-ecampus/flask-starter-app-->
+
+	</footer>
+
+</body>
+
+</html>

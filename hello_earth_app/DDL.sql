@@ -1,7 +1,7 @@
 -- Group 39
 -- Team Members: Juan Pablo Duque Ochoa, Marco Scandroglio
 -- Project Name: Hello Earth!
--- Project Step 3 Final Version: Design HTML Interface (Group / On Canvas) 
+-- Project Step 6 (Portfolio Assignment - Group) 
 
 SET FOREIGN_KEY_CHECKS=0;
 SET AUTOCOMMIT = 0;

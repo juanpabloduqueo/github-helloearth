@@ -84,6 +84,10 @@
 					
                         <!-- End of this for loop -->
                         {% endfor %} 
+
+						<th>Edit</th>
+						<th>Delete</th>
+						
                     </tr>
 
 				<tbody>
@@ -131,7 +135,7 @@
             </fieldset>
 
             <!-- Create 'Add Machine' and 'Cancel' buttons -->
-			<input type="submit" value="Add Machine" name="Add_Machine" class="btn btn-primary" style="margin:.5rem;">
+			<input type="submit" value="Add Machine" name="Add_Machine" class="btn btn-primary"">
 			<input class="btn" type="button" value="Cancel" onClick="browseMachines()"> 
         </form>
 	</div><!--insert-->
@@ -158,7 +162,7 @@
 				<input type="text" class="form-control" id="class" name="class" pattern="[A-Za-z0-9]{1,}" placeholder="{{data[0].class}}" required>
 				
 			</fieldset>
-				<input class="btn" type="button" value="Cancel" onClick="browseMachines()" style="margin:.5rem;"> 
+				<input class="btn" type="button" value="Cancel" onClick="browseMachines()"> 
 				
 
 		</form>
@@ -168,7 +172,7 @@
 		<p>Introduction to Databases (CS340)</p>
 		<p>[Juan Pablo Duque and Marco Scandroglio]</p>
 	<!--Code Citation:-->
-	<!--Date: 02/24/2023-->
+	<!--Date: 03/20/2023-->
 	<!--Code adapted from Exploration 7 Course Content (Flask Starter App):--> 
 	<!--Source URL: https://github.com/osu-cs340-ecampus/flask-starter-app-->
 	</footer>
